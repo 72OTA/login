@@ -449,6 +449,28 @@ class Users extends Models implements IModels {
         return $result;
     }
     
+    
+    /**
+     * Obtiene los perfiles
+     *
+     * @param string $select : Por defecto es *, se usa para obtener sólo los parámetros necesarios
+     *
+     * @throws ModelsException si el usuario no está logeado
+     * @return array con datos del usuario conectado
+     */
+    public function getPerfiles(string $select = '*') : array {
+        
+        if ($select === '*')
+        {
+            $perfiles = $this->db->query_select('Select nombre from tblperfiles group by nombre order by nombre');    
+             return $perfiles;
+        }else{
+            $perfiles = $this->db->select($select,'tblperfiles',"",'Limit 1'); 
+            return $perfiles[0];
+        }
+    }
+    
+    
     /**
      * Obtiene datos del usuario conectado actualmente
      *
