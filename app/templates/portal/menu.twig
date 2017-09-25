@@ -37,7 +37,7 @@
                 
             {% set id = 0 %}
             {% set cont = 0 %}
-            {% for m in menu_user if false != menu %}
+            {% for m in menu_user if false != menu_user %}
                
                 {% if id != m.id_menu %}
                     {% if cont >= 1 %}
@@ -59,9 +59,7 @@
                         <li>
                             <a href="{{ m.url }}"><i class="fa fa-circle-o"></i>{{ m.submenu }}</a>
                         </li>
-                    
-                
-                
+
                 {% set id=m.id_menu %}
                 {% set cont =  cont + 1 %}
             {% endfor %}

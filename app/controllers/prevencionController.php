@@ -31,7 +31,7 @@ class prevencionController extends Controllers implements IControllers {
         $u = new Model\Users($router);
         
         $op = array(5);
-        echo $this->template->render('prevencion/prevencion', array('menu_op' => $op , 'menu' => $u->getMenu($this->user['id_user'] )));
+        echo $this->template->render('prevencion/prevencion', array('menu_op' => $op ));
 
     }
 

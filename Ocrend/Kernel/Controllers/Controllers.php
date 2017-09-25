@@ -54,10 +54,12 @@ abstract class Controllers {
     
     /**
       * Arreglo con la información del usuario conectado actualmente.
-      *
+      * Arreglo con el menu del usuario conectado
       * @var array 
     */
     protected $user = array();
+    
+    protected $menu_user = array();
 
     /**
       * Contiene información sobre el estado del usuario, si está o no conectado.
@@ -119,9 +121,9 @@ abstract class Controllers {
           $this->user = (new Model\Users)->getOwnerUser();
           $this->template->addGlobal('owner_user', $this->user);
           
-          $menu = array();
-          $menu = (new Model\Users)->getMenu($this->user['id_user']);
-          $this->template->addGlobal('menu_user',$menu );
+          
+          $this->   menu_user = (new Model\Users)->getMenu($this->user['id_user']);
+          $this->template->addGlobal('menu_user', $this->menu_user );
         }
 
         # Extensiones

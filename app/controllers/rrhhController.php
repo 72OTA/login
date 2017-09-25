@@ -31,7 +31,7 @@ class rrhhController extends Controllers implements IControllers {
         $u = new Model\Users($router);
         
         $op = array(2); 
-		echo $this->template->render('rrhh/rrhh', array('menu_op' => $op , 'menu' => $u->getMenu($this->user['id_user'] )));
+		echo $this->template->render('rrhh/rrhh', array('menu_op' => $op ));
 
     }
 

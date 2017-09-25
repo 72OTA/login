@@ -34,7 +34,7 @@ class homeController extends Controllers implements IControllers {
             $u = new Model\Users($router);
             
             $op = array(0);
-            echo $this->template->render('portal/portal',array('menu_op' => $op, 'menu' => $u->getMenu($this->user['id_user'] )));
+            echo $this->template->render('portal/portal',array('menu_op' => $op));
         }
         
     }

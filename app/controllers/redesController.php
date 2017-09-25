@@ -31,7 +31,7 @@ class redesController extends Controllers implements IControllers {
         $u = new Model\Users($router);
         
         $op = array(3);  
-		echo $this->template->render('redes/redes', array('menu_op' => $op , 'menu' => $u->getMenu($this->user['id_user'] )));
+		echo $this->template->render('redes/redes', array('menu_op' => $op ));
 
     }
 

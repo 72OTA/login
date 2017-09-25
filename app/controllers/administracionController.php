@@ -31,7 +31,7 @@ class administracionController extends Controllers implements IControllers {
         $u = new Model\Users($router);
         
         $op = array(99);
-        echo $this->template->render('administracion/usuarios', array('menu_op' => $op , 'menu' => $u->getMenu($this->user['id_user'] )));
+        echo $this->template->render('administracion/usuarios', array('menu_op' => $op ));
 
     }
 

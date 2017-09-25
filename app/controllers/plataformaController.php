@@ -31,7 +31,7 @@ class plataformaController extends Controllers implements IControllers {
         $u = new Model\Users($router);
         
         $op = array(1);   
-		echo $this->template->render('plataforma/plataforma', array('menu_op' => $op , 'menu' => $u->getMenu($this->user['id_user'] )));
+		echo $this->template->render('plataforma/plataforma', array('menu_op' => $op ));
 
     }
 
