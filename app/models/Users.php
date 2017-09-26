@@ -145,8 +145,8 @@ class Users extends Models implements IModels {
         $query = $this->db->select('id_user,pass','users',"email='$email'",'LIMIT 1');
 
         # Incio de sesión con éxito
-        if(false !== $query &&  $query[0]['pass']===$pass ) {
-            // && Strings::chash($query[0]['pass'],$pass)
+        if(false !== $query && Strings::chash($query[0]['pass'],$pass) ) {
+            //
 
             # Restaurar intentos
             $this->restoreAttempts($email);
@@ -293,14 +293,11 @@ class Users extends Models implements IModels {
             $this->db->insert('users', array(
                 'name' => $name,
                 'email' => $email,
+                'perfil' => $perfil,
+                'admin' => $admin,
                 'pass' => Strings::hash($pass)
             ));
 
-            #valida que el usuario se haya guardado en la base de datos
-            $query = $this->db->select('id_user', 'users', "email='$email'", 'LIMIT 1');
-            if (false === $query) {
-                throw new ModelsException('no se ha podido registar en la tabla users');
-            }
             # Iniciar sesión
             //$this->generateSession(array(
             //    'id_user' => $this->db->lastInsertId()

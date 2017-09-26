@@ -15,13 +15,13 @@ use app\models as Model;
 use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
-  
+
 /**
  * Controlador administracion/
  *
  * @author Jorge Jara H. <jjara@wys.cl>
 */
-  
+
 class administracionController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
@@ -29,16 +29,17 @@ class administracionController extends Controllers implements IControllers {
             'users_logged' => true
         ));
         $u = new Model\Users($router);
+
         
         $op = array(99);
         switch($this->method){
             case 'perfiles': echo $this->template->render('administracion/perfiles', array('menu_op' => $op )); break;
             case 'usuario': echo $this->template->render('administracion/usuarios', array('menu_op' => $op, 'db_perfiles' => $u->getPerfiles() )); break;
-            default: 
+            default:
                 echo $this->template->render('error/error_portal',array('menu_op' => $op ));
                 break;
         }
-        
+
 
     }
 
