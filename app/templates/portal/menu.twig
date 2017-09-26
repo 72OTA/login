@@ -33,12 +33,12 @@
                     <a href="portal"><i class="fa fa-home"></i><span>HOME</span>
                     </a>
                 </li>
-                
-                
+
+
             {% set id = 0 %}
             {% set cont = 0 %}
             {% for m in menu_user if false != menu_user %}
-               
+
                 {% if id != m.id_menu %}
                     {% if cont >= 1 %}
                     </ul>
@@ -48,16 +48,20 @@
                 <li class="active treeview">
                 {% else %}
                 <li class="treeview">
-                {% endif %} 
+                {% endif %}
                     <a href="#">
-                        <i class='fa {{ m.glyphicon }}'></i> 
-                        <span>{{ m.menu }}</span><i class="fa fa-angle-left pull-right"></i>
+                        <i class='fa {{ m.glyphicon }}'></i>
+                        <span>
+
+                        {{ m.menu|raw|convert_encoding('UTF-8', 'ISO-8859-1')|upper }}
+
+                        </span><i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
                 {% endif %}
-                    
+
                         <li>
-                            <a href="{{ m.url }}"><i class="fa fa-circle-o"></i>{{ m.submenu }}</a>
+                            <a href="{{ m.url }}"><i class="fa fa-circle-o"></i>{{ m.submenu|capitalize|raw|convert_encoding('UTF-8', 'ISO-8859-1') }}</a>
                         </li>
 
                 {% set id=m.id_menu %}
