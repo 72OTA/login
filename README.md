@@ -2,10 +2,10 @@
 
 # Para prueba incial debe ingresar los siguientes datos:
 
-usuario: admin@nielsen.cl 
-pass: 1234 
+<p> usuario: admin@nielsen.cl </p>
+<p> pass: 1 </p>
 
-# Hasta que pueda generar modulo de registro de usuario y creación de perfiles.
+# Modulos Listos
 
-
-
+* Menu dinamico por perfil de usuario
+* Registro de usuarios
