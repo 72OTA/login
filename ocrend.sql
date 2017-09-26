@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2017 a las 02:55:09
+-- Tiempo de generación: 26-09-2017 a las 22:12:47
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -39,6 +39,11 @@ CREATE TABLE `tblmenu` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
+-- Truncar tablas antes de insertar `tblmenu`
+--
+
+TRUNCATE TABLE `tblmenu`;
+--
 -- Volcado de datos para la tabla `tblmenu`
 --
 
@@ -64,51 +69,10 @@ CREATE TABLE `tblperfiles` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `tblperfiles`
+-- Truncar tablas antes de insertar `tblperfiles`
 --
 
-INSERT INTO `tblperfiles` (`nombre`, `Idopcion`, `idSubmenu`) VALUES
-('gerencia', 1, 1),
-('gerencia', 2, 4),
-('gerencia', 2, 9),
-('gerencia', 3, 1),
-('gerencia', 4, 1),
-('gerencia', 4, 2),
-('gerencia', 5, 1),
-('HD_Ejecutivo', 1, 1),
-('HD_Ejecutivo', 1, 4),
-('HD_Ejecutivo', 1, 5),
-('HD_Ejecutivo', 2, 2),
-('HD_supervisor', 1, 1),
-('HD_supervisor', 1, 2),
-('HD_supervisor', 1, 3),
-('HD_supervisor', 1, 5),
-('HD_supervisor', 1, 6),
-('HD_supervisor', 2, 1),
-('HD_supervisor', 2, 2),
-('HD_supervisor', 2, 3),
-('HD_supervisor', 2, 4),
-('HD_supervisor', 2, 6),
-('HD_supervisor', 2, 8),
-('HD_supervisor', 2, 9),
-('jefatura', 1, 1),
-('jefatura', 2, 3),
-('jefatura', 2, 4),
-('jefatura', 2, 5),
-('jefatura', 2, 6),
-('jefatura', 2, 7),
-('jefatura', 2, 8),
-('jefatura', 2, 9),
-('jefatura', 3, 1),
-('jefatura', 4, 1),
-('jefatura', 5, 1),
-('Supervisor', 1, 1),
-('Supervisor', 2, 1),
-('Supervisor', 2, 2),
-('Supervisor', 2, 3),
-('Supervisor', 2, 4),
-('Supervisor_tecnico', 1, 1);
-
+TRUNCATE TABLE `tblperfiles`;
 -- --------------------------------------------------------
 
 --
@@ -122,6 +86,11 @@ CREATE TABLE `tblperfilesuser` (
   `idSubmenu` int(10) UNSIGNED NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+--
+-- Truncar tablas antes de insertar `tblperfilesuser`
+--
+
+TRUNCATE TABLE `tblperfilesuser`;
 --
 -- Volcado de datos para la tabla `tblperfilesuser`
 --
@@ -357,6 +326,11 @@ CREATE TABLE `tblsubmenu` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
+-- Truncar tablas antes de insertar `tblsubmenu`
+--
+
+TRUNCATE TABLE `tblsubmenu`;
+--
 -- Volcado de datos para la tabla `tblsubmenu`
 --
 
@@ -378,21 +352,28 @@ INSERT INTO `tblsubmenu` (`id_menu`, `id_submenu`, `PosS`, `url`, `descripcion`,
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id_user` int(11) UNSIGNED NOT NULL,
-  `name` varchar(100) CHARACTER SET latin1 NOT NULL,
-  `email` varchar(150) CHARACTER SET latin1 NOT NULL,
-  `pass` varchar(90) CHARACTER SET latin1 NOT NULL,
-  `tmp_pass` varchar(90) CHARACTER SET latin1 NOT NULL,
-  `token` varchar(90) CHARACTER SET latin1 NOT NULL,
-  `perfil` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `admin` tinyint(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `name` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `pass` varchar(90) COLLATE utf8_unicode_ci NOT NULL,
+  `tmp_pass` varchar(90) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(90) COLLATE utf8_unicode_ci NOT NULL,
+  `perfil` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `admin` smallint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Truncar tablas antes de insertar `users`
+--
+
+TRUNCATE TABLE `users`;
 --
 -- Volcado de datos para la tabla `users`
 --
 
 INSERT INTO `users` (`id_user`, `name`, `email`, `pass`, `tmp_pass`, `token`, `perfil`, `admin`) VALUES
-(1, 'administrador', 'admin@nielsen.cl', '1234', '', '', 'otro', 1);
+(1, 'ADMINISTRADOR', 'admin@nielsen.cl', '$2a$10$874ff9cd8ecf1f52288c0uL0cR0tuagbnuDAv.HF/0W61oEfiS5g.', '', '', 'otro', 1),
+(2, 'Jorge Jara', 'jjara@nielsen.cl', '$2a$10$874ff9cd8ecf1f52288c0uL0cR0tuagbnuDAv.HF/0W61oEfiS5g.', '', '', 'otro', 0),
+(3, 'Felipe Andrade', 'felipe.andrade@nielsen.cl', '$2a$10$b5d0cd489d80f52b57376uJXxNv5HFFjadUTPuwDKd6U3XgFMbl2u', '', '', 'Otro', 0);
 
 --
 -- Índices para tablas volcadas
@@ -446,7 +427,7 @@ ALTER TABLE `tblsubmenu`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;COMMIT;
+  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
