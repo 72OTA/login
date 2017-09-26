@@ -1,4 +1,4 @@
-# Intregación de Framework OCREND CON AdminLTE
+# Intregación de Framework OCREND CON AdminLTE.
 
 # Para prueba incial debe ingresar los siguientes datos:
 
