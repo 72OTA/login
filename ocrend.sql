@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2017 a las 22:12:47
+-- Tiempo de generación: 26-09-2017 a las 23:12:35
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -63,9 +63,10 @@ INSERT INTO `tblmenu` (`id_menu`, `PosI`, `descripcion`, `glyphicon`) VALUES
 
 DROP TABLE IF EXISTS `tblperfiles`;
 CREATE TABLE `tblperfiles` (
+  `id` int(11) NOT NULL,
   `nombre` varchar(35) NOT NULL,
-  `Idopcion` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `idSubmenu` int(10) UNSIGNED NOT NULL DEFAULT '0'
+  `Idopcion` int(10) NOT NULL DEFAULT '0',
+  `idSubmenu` int(10) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -81,9 +82,10 @@ TRUNCATE TABLE `tblperfiles`;
 
 DROP TABLE IF EXISTS `tblperfilesuser`;
 CREATE TABLE `tblperfilesuser` (
-  `IdUsuario` varchar(50) NOT NULL,
-  `Idopcion` int(10) UNSIGNED NOT NULL,
-  `idSubmenu` int(10) UNSIGNED NOT NULL
+  `id` int(11) NOT NULL,
+  `id_user` varchar(50) NOT NULL,
+  `id_menu` int(10) UNSIGNED NOT NULL,
+  `id_submenu` int(10) UNSIGNED NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
@@ -95,219 +97,9 @@ TRUNCATE TABLE `tblperfilesuser`;
 -- Volcado de datos para la tabla `tblperfilesuser`
 --
 
-INSERT INTO `tblperfilesuser` (`IdUsuario`, `Idopcion`, `idSubmenu`) VALUES
-(' cvenac', 1, 1),
-(' cvenac', 2, 2),
-('aberga', 1, 1),
-('aberga', 1, 4),
-('aberga', 1, 5),
-('aberga', 2, 2),
-('abizas', 1, 1),
-('abizas', 1, 4),
-('abizas', 1, 5),
-('abizas', 2, 2),
-('aizqgo', 1, 1),
-('aizqgo', 1, 4),
-('aizqgo', 1, 5),
-('aizqgo', 2, 2),
-('bcoldu', 1, 1),
-('bcoldu', 1, 4),
-('bcoldu', 1, 5),
-('bcoldu', 2, 2),
-('cdiard', 1, 1),
-('cdiard', 1, 4),
-('cdiard', 1, 5),
-('cdiard', 2, 2),
-('cgonpe', 1, 1),
-('cgonpe', 1, 2),
-('cgonpe', 1, 3),
-('cgonpe', 1, 5),
-('cgonpe', 1, 6),
-('cgonpe', 2, 1),
-('cgonpe', 2, 2),
-('cgonpe', 2, 3),
-('cgonpe', 2, 4),
-('cgonpe', 2, 6),
-('cgonpe', 2, 8),
-('cgonpe', 2, 9),
-('cingod', 1, 1),
-('cingod', 1, 4),
-('cingod', 1, 5),
-('cingod', 2, 2),
-('colifu', 1, 1),
-('colifu', 1, 4),
-('colifu', 1, 5),
-('colifu', 2, 2),
-('cvenac', 1, 1),
-('cvenac', 1, 4),
-('cvenac', 1, 5),
-('cvenac', 2, 2),
-('dcovna', 1, 1),
-('dcovna', 1, 2),
-('dcovna', 1, 3),
-('dcovna', 1, 5),
-('dcovna', 1, 6),
-('dcovna', 2, 1),
-('dcovna', 2, 2),
-('dcovna', 2, 3),
-('dcovna', 2, 4),
-('dcovna', 2, 6),
-('dcovna', 2, 8),
-('dcovna', 2, 9),
-('ddomhe', 1, 1),
-('ddomhe', 1, 4),
-('ddomhe', 1, 5),
-('ddomhe', 2, 2),
-('delcas', 1, 1),
-('delcas', 1, 4),
-('delcas', 1, 5),
-('delcas', 2, 2),
-('dleidi', 1, 1),
-('dleidi', 1, 4),
-('dleidi', 1, 5),
-('dleidi', 2, 2),
-('ebrive', 1, 1),
-('ebrive', 1, 4),
-('ebrive', 1, 5),
-('ebrive', 2, 2),
-('fandva', 1, 1),
-('fandva', 1, 4),
-('fandva', 1, 5),
-('fandva', 2, 2),
-('gvalme', 1, 1),
-('gvalme', 1, 4),
-('gvalme', 1, 5),
-('gvalme', 2, 2),
-('hgutsa', 1, 1),
-('hgutsa', 1, 4),
-('hgutsa', 1, 5),
-('hgutsa', 2, 2),
-('iencgo', 1, 1),
-('iencgo', 1, 4),
-('iencgo', 1, 5),
-('iencgo', 2, 2),
-('jaceug', 1, 1),
-('jaceug', 1, 4),
-('jaceug', 1, 5),
-('jaceug', 2, 2),
-('jjarhi', 1, 1),
-('jjarhi', 1, 2),
-('jjarhi', 1, 3),
-('jjarhi', 1, 5),
-('jjarhi', 1, 6),
-('jjarhi', 2, 1),
-('jjarhi', 2, 2),
-('jjarhi', 2, 3),
-('jjarhi', 2, 4),
-('jjarhi', 2, 6),
-('jjarhi', 2, 8),
-('jjarhi', 2, 9),
-('jlopcl', 1, 1),
-('jlopcl', 1, 4),
-('jlopcl', 1, 5),
-('jlopcl', 2, 2),
-('jlopfe', 1, 1),
-('jlopfe', 1, 4),
-('jlopfe', 1, 5),
-('jlopfe', 2, 2),
-('jramqu', 1, 1),
-('jramqu', 1, 4),
-('jramqu', 1, 5),
-('jramqu', 2, 2),
-('jreydi', 1, 1),
-('jreydi', 2, 3),
-('jreydi', 2, 4),
-('jreydi', 2, 5),
-('jreydi', 2, 6),
-('jreydi', 2, 7),
-('jreydi', 2, 8),
-('jreydi', 2, 9),
-('jreydi', 3, 1),
-('jreydi', 4, 1),
-('jreydi', 5, 1),
-('jvalgv', 1, 1),
-('jvalgv', 1, 4),
-('jvalgv', 1, 5),
-('jvalgv', 2, 2),
-('lrodma', 1, 1),
-('lrodma', 1, 4),
-('lrodma', 1, 5),
-('lrodma', 2, 2),
-('maribe', 1, 1),
-('maribe', 1, 4),
-('maribe', 1, 5),
-('maribe', 2, 2),
-('msariq', 1, 1),
-('msariq', 1, 4),
-('msariq', 1, 5),
-('msariq', 2, 2),
-('nifarp', 1, 1),
-('nifarp', 1, 4),
-('nifarp', 1, 5),
-('nifarp', 2, 2),
-('njarva', 1, 1),
-('njarva', 1, 4),
-('njarva', 1, 5),
-('njarva', 2, 2),
-('pbrasi', 1, 1),
-('pbrasi', 1, 2),
-('pbrasi', 1, 3),
-('pbrasi', 1, 5),
-('pbrasi', 1, 6),
-('pbrasi', 2, 1),
-('pbrasi', 2, 2),
-('pbrasi', 2, 3),
-('pbrasi', 2, 4),
-('pbrasi', 2, 6),
-('pbrasi', 2, 8),
-('pbrasi', 2, 9),
-('pervam', 1, 1),
-('pervam', 1, 4),
-('pervam', 1, 5),
-('pervam', 2, 2),
-('pfieol', 1, 1),
-('pfieol', 1, 4),
-('pfieol', 1, 5),
-('pfieol', 2, 2),
-('rdavfo', 1, 1),
-('rdavfo', 1, 4),
-('rdavfo', 1, 5),
-('rdavfo', 2, 2),
-('rodrigo.slier@nielsen.cl', 1, 1),
-('rodrigo.slier@nielsen.cl', 2, 4),
-('rodrigo.slier@nielsen.cl', 2, 9),
-('rodrigo.slier@nielsen.cl', 3, 1),
-('rodrigo.slier@nielsen.cl', 4, 1),
-('rodrigo.slier@nielsen.cl', 4, 2),
-('rodrigo.slier@nielsen.cl', 5, 1),
-('rsanso', 1, 1),
-('rsanso', 1, 4),
-('rsanso', 1, 5),
-('rsanso', 2, 2),
-('rsotfe', 1, 1),
-('rsotfe', 1, 4),
-('rsotfe', 1, 5),
-('rsotfe', 2, 2),
-('rurima', 1, 1),
-('rurima', 1, 4),
-('rurima', 1, 5),
-('rurima', 2, 2),
-('rvelin', 1, 1),
-('rvelin', 1, 4),
-('rvelin', 1, 5),
-('rvelin', 2, 2),
-('salall', 1, 1),
-('salall', 1, 4),
-('salall', 1, 5),
-('salall', 2, 2),
-('saramu', 1, 1),
-('saramu', 1, 4),
-('saramu', 1, 5),
-('saramu', 2, 2),
-('vverna', 1, 1),
-('vverna', 1, 4),
-('vverna', 1, 5),
-('vverna', 2, 2);
+INSERT INTO `tblperfilesuser` (`id`, `id_user`, `id_menu`, `id_submenu`) VALUES
+(1, '2', 1, 1),
+(1, '2', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -371,9 +163,9 @@ TRUNCATE TABLE `users`;
 --
 
 INSERT INTO `users` (`id_user`, `name`, `email`, `pass`, `tmp_pass`, `token`, `perfil`, `admin`) VALUES
-(1, 'ADMINISTRADOR', 'admin@nielsen.cl', '$2a$10$874ff9cd8ecf1f52288c0uL0cR0tuagbnuDAv.HF/0W61oEfiS5g.', '', '', 'otro', 1),
-(2, 'Jorge Jara', 'jjara@nielsen.cl', '$2a$10$874ff9cd8ecf1f52288c0uL0cR0tuagbnuDAv.HF/0W61oEfiS5g.', '', '', 'otro', 0),
-(3, 'Felipe Andrade', 'felipe.andrade@nielsen.cl', '$2a$10$b5d0cd489d80f52b57376uJXxNv5HFFjadUTPuwDKd6U3XgFMbl2u', '', '', 'Otro', 0);
+(1, 'ADMINISTRADOR', 'admin@wys.cl', '$2a$10$874ff9cd8ecf1f52288c0uL0cR0tuagbnuDAv.HF/0W61oEfiS5g.', '', '', 'otro', 1),
+(2, 'Jorge Jara', 'jjara@wys.cl', '$2a$10$874ff9cd8ecf1f52288c0uL0cR0tuagbnuDAv.HF/0W61oEfiS5g.', '', '', 'otro', 0),
+(3, 'Felipe Andrade', 'felipe.andrade@wys.cl', '$2a$10$b5d0cd489d80f52b57376uJXxNv5HFFjadUTPuwDKd6U3XgFMbl2u', '', '', 'Otro', 0);
 
 --
 -- Índices para tablas volcadas
@@ -395,7 +187,7 @@ ALTER TABLE `tblperfiles`
 -- Indices de la tabla `tblperfilesuser`
 --
 ALTER TABLE `tblperfilesuser`
-  ADD PRIMARY KEY (`IdUsuario`,`Idopcion`,`idSubmenu`) USING BTREE;
+  ADD PRIMARY KEY (`id_user`,`id_menu`,`id_submenu`,`id`) USING BTREE;
 
 --
 -- Indices de la tabla `tblsubmenu`
@@ -418,6 +210,11 @@ ALTER TABLE `users`
 --
 ALTER TABLE `tblmenu`
   MODIFY `id_menu` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+--
+-- AUTO_INCREMENT de la tabla `tblperfilesuser`
+--
+ALTER TABLE `tblperfilesuser`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT de la tabla `tblsubmenu`
 --
