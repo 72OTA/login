@@ -30,37 +30,37 @@
                         <b>Ingrese Datos de Usuario</b>
                         <div id="bloque_registro"></div>
                         <div class="box box-info">
-                            <form name="nuevo_usuario"  action="" method="POST" onsubmit="enviardatosusuario('Nuevo'); return false">
+                            <form id="register_form"  action="" method="POST">
                                 <div class="box-body col-sm-4">
 
                                     <div class="form-group">
-                                        <input class="form-control" name="nombres" type="text" id="nombre" placeholder="Nombre Completo" required/>
-                                        <input class="form-control" name="rut" type="text" id="rut" placeholder="Rut" required/>
+                                        <input class="form-control" name="name"        id="name"        type="text"     placeholder="Nombre Completo" required/>
+                                        <input class="form-control" name="email"       id="email"       type="email"    placeholder="E-Mail" required/>
                                     </div>
 
                                     <div class="form-group">
-                                        <input class="form-control" name="usuario" type="text" id="usuario" placeholder="Nombre de usuario" required/>
-                                        <input class="form-control" name="pass" type="password" id="pass" placeholder="Password" required/>
-                                        <input class="form-control" name="correo" type="email" id="correo" placeholder="E-Mail" required/>
+                                        <input class="form-control" name="pass"        id="pass"        type="password" placeholder="Password" required/>
+                                        <input class="form-control" name="pass_repeat" id="pass_repeat" type="password" placeholder="Repita Password" required/>
                                     </div>
 
                                     <div class="form-group">
                                         <select name='perfil' id='perfil' class='form-control'>
                                             <option selected='selected'>--</option>
                                             {% for p in db_perfiles if false != db_perfiles %}
-                                            <option>{{ p.nombre }}</option>
+                                            <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
                                             {% endfor %}
+                                            <option value='Otro'>Otro</option>
                                         </select>
                                     </div>
 
                                     <div class="checkbox">
                                         <label>
-                                            <input name="admin" type="checkbox" id="admin" /> Usuario Administrador
+                                            <input name="admin" type="checkbox" id="admin" /> Usuario Administrador?
                                         </label>
                                     </div>
 
                                     <div class="form-group">
-                                        <input type="submit" name="Submit" value="Grabar" />
+                                        <input type="submit" id="register" value="Grabar" />
                                         <input type="reset" name="Limpiar" value="Limpiar" />
                                     </div>
                                 </div>
@@ -78,9 +78,14 @@
                             <div class="row">
                                 <div class="box-body col-sm-4">
                                     <form name="filtra_usuario_perfil" action="" method="POST" onsubmit="consultausuarioperfil(); return false">
-                                           
-                                            <input type="submit" name="Submit" value="Buscar" onclick="consultausuarioperfil(); return false" />
-                                          
+                                        <select name='perfil_f' id='perfil_f' class='form-control'>
+                                            <option selected='selected'>--</option>
+                                            {% for p in db_perfiles if false != db_perfiles %}
+                                            <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
+                                            {% endfor %}
+                                            <option value='Otro'>Otro</option>
+                                        </select>
+                                        <input type="submit" name="Submit" value="Buscar" onclick="consultausuarioperfil(); return false" />
                                     </form>
                                 </div>
                             </div>
@@ -95,4 +100,7 @@
         </div><!-- /.box -->
     </section><!-- /.content -->   
   
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/register/register.js"></script>
 {% endblock %}

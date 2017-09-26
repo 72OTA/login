@@ -7,7 +7,6 @@ function register(){
     url : "api/register",
     data : $('#register_form').serialize(),
     success : function(json) {
-      alert(json.success);
       alert(json.message);
       if(json.success == 1) {
         setTimeout(function(){

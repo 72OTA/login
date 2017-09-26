@@ -266,16 +266,21 @@ class Users extends Models implements IModels {
     public function register() : array {
         try {
             global $http;
-
+ 
             # Obtener los datos $_POST
             $name = $http->request->get('name');
             $email = $http->request->get('email');
             $pass = $http->request->get('pass');
             $pass_repeat = $http->request->get('pass_repeat');
+            $perfil = $http->request->get('perfil');
+            $admin = $http->request->get('admin');
 
             # Verificar que no están vacíos
             if ($this->functions->e($name, $email, $pass, $pass_repeat)) {
                 throw new ModelsException('Todos los datos son necesarios');
+            }
+            elseif ($perfil == '--'){
+                throw new ModelsException('Debe seleccionar un perfil');
             }
 
             # Verificar email 
@@ -288,13 +293,14 @@ class Users extends Models implements IModels {
             $this->db->insert('users', array(
                 'name' => $name,
                 'email' => $email,
+                'perfil' => $perfil,
                 'pass' => Strings::hash($pass)
             ));
 
             # Iniciar sesión
-            $this->generateSession(array(
-                'id_user' => $this->db->lastInsertId()
-            ));
+//            $this->generateSession(array(
+//                'id_user' => $this->db->lastInsertId()
+//            ));
 
             return array('success' => 1, 'message' => 'Registrado con éxito.');
         } catch (ModelsException $e) {

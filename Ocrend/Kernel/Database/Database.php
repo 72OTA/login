@@ -214,8 +214,11 @@ namespace Ocrend\Kernel\Database;
       $query[strlen($query) - 1] = ')';
       $values[strlen($values) - 1] = ')';
       $query .= ' VALUES (' . $values . ';';
-
-      return $this->query($query);  
+      
+      
+      return $this->query($query); 
+      
+      
   }
 
   /**
