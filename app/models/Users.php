@@ -298,7 +298,7 @@ class Users extends Models implements IModels {
 
             #valida que el usuario se haya guardado en la base de datos
             $query = $this->db->select('id_user', 'users', "email='$email'", 'LIMIT 1');
-            if (false == $query) {
+            if (false === $query) {
                 throw new ModelsException('no se ha podido registar en la tabla users');
             }
             # Iniciar sesión
