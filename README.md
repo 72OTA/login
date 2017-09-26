@@ -2,7 +2,7 @@
 
 # Para prueba incial debe ingresar los siguientes datos:
 
-<p> usuario: admin@nielsen.cl </p>
+<p> usuario: admin@wys.cl </p>
 <p> pass: 1 </p>
 
 # Modulos Listos
