@@ -15,22 +15,22 @@ use app\models as Model;
     * Inicio de sesión
     *
     * @return json
-*/  
+*/
 $app->post('/login', function() use($app) {
-    $u = new Model\Users;   
+    $u = new Model\Users;
 
-    return $app->json($u->login());   
+    return $app->json($u->login());
 });
 
 /**
     * Inicio de sesión
     *
     * @return json
-*/  
+*/
 $app->post('/logout', function() use($app) {
-    $u = new Model\Users;   
+    $u = new Model\Users;
 
-    return $app->json($u->logout());   
+    return $app->json($u->logout());
 });
 
 /**
@@ -39,9 +39,9 @@ $app->post('/logout', function() use($app) {
     * @return json
 */
 $app->post('/register', function() use($app) {
-    $u = new Model\Users; 
+    $u = new Model\Users;
 
-    return $app->json($u->register());   
+    return $app->json($u->register());
 });
 
 /**
@@ -50,7 +50,7 @@ $app->post('/register', function() use($app) {
     * @return json
 */
 $app->post('/lostpass', function() use($app) {
-    $u = new Model\Users; 
+    $u = new Model\Users;
 
-    return $app->json($u->lostpass());   
+    return $app->json($u->lostpass());
 });

@@ -7,22 +7,18 @@
     </section>
 
     <section class="content">
-
-          <!-- Default box -->
-          <div class="box">
+        <div class="box">
             <div class="box-header with-border">
               <div class="box-tools pull-right">
                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
               </div>
             </div>
-        
-             <div class="box-body">
-               <!-- Custom Tabs (Pulled to the right) -->
+            <div class="box-body">
               <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs pull-rigth">
                   <li class="active"><a href="#tab_1-1" data-toggle="tab">REGISTROS</a></li>
                   <li><a href="#tab_2-2" data-toggle="tab">ACTUALIZAR</a></li>
-                
+
                   <li class="pull-left header"></li>
                 </ul>
                 <div class="tab-content">
@@ -69,12 +65,12 @@
 
                         <div id="bloque_registro"></div>
                     </div><!-- /.tab-pane -->
-                    
+
                     <div class="tab-pane" id="tab_2-2">
                         <b>Seleccione Perfil para filtrar</b>
                         <div class="box box-info">
-                            
-                            
+
+
                             <div class="row">
                                 <div class="box-body col-sm-4">
                                     <form name="filtra_usuario_perfil" action="" method="POST" onsubmit="consultausuarioperfil(); return false">
@@ -91,15 +87,13 @@
                             </div>
                             <div class="table-responsive" id="bloque_listausuarios"></div>
                         </div>
-                        
+
                     </div><!-- /.tab-pane -->
-                </div><!-- /.tab-content -->
-              </div><!-- nav-tabs-custom -->
+                </div>
+              </div>
             </div>
-            
-        </div><!-- /.box -->
-    </section><!-- /.content -->   
-  
+        </div>
+    </section>
 {% endblock %}
 {% block appScript %}
     <script src="views/app/js/register/register.js"></script>
