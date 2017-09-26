@@ -452,7 +452,7 @@ class Users extends Models implements IModels {
         if ($id_user==1)
             $result = $this->db->query_select("select m.id_menu,m.descripcion menu,m.glyphicon,sm.descripcion submenu,sm.url from tblmenu m inner join tblsubmenu sm on m.id_menu=sm.id_menu  where sm.estado=1  order by m.PosI,sm.PosS");
         else
-            $result = false;
+            $result = $this->db->query_select("select m.id_menu,m.descripcion menu,m.glyphicon,sm.descripcion submenu,sm.url from (tblperfilesuser pu inner join tblmenu m on pu.id_menu=m.id_menu) inner join tblsubmenu sm on pu.id_menu=sm.id_menu and pu.id_submenu=sm.id_submenu where pu.id_user=$id_user order by m.PosI,sm.PosS");
         return $result;
     }
 
