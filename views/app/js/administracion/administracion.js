@@ -33,3 +33,22 @@ $('#register_form').keypress(function(e) {
         register();
     }
 });
+
+
+function inserta_html(div_result,web_mostrar){
+  var divResultado = document.getElementById(div_result);
+
+  $.ajax({
+        url: web_mostrar,
+        type: 'POST',
+        dataType: 'html',
+        data: { },
+    })
+    .done (function(result){
+        $('#' + divResultado).html(result)
+    })
+    .error(function(xhr, ajaxOptions, thrownError) {
+        $('#'+ divResultado).html(xhr.responseText)
+    })
+
+}

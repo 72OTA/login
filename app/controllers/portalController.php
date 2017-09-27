@@ -15,20 +15,19 @@ use app\models as Model;
 use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
-  
+
 /**
  * Controlador portal/
  *
  * @author Jorge Jara H. <jjara@wys.cl>
 */
-  
+
 class portalController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-        $u = new Model\Users($router);
         
         $op = array(0);
         echo $this->template->render('portal/portal',array('menu_op' => $op));

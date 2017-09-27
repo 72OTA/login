@@ -15,7 +15,7 @@ use app\models as Model;
 use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
-  
+
 /**
  * Controlador error/
  *
@@ -29,8 +29,6 @@ class errorController extends Controllers implements IControllers {
         if (!isset($this->user['id_user']))
             echo $this->template->render('error/error');
         else{
-            $u = new Model\Users($router);
-            
             $op = array(0);
             echo $this->template->render('error/error_portal',array('menu_op' => $op ));
         }

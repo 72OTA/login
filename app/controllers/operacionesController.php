@@ -15,23 +15,22 @@ use app\models as Model;
 use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
-  
+
 /**
  * Controlador operaciones/
  *
  * @author Jorge Jara H. <jjara@wys.cl>
 */
-  
+
 class operacionesController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-        $u = new Model\Users($router);
-        
-        $op = array(4);  
-		echo $this->template->render('operaciones/operaciones', array('menu_op' => $op ));
+
+        $op = array(4);
+		    echo $this->template->render('operaciones/operaciones', array('menu_op' => $op ));
 
     }
 

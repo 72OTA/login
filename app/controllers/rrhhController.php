@@ -15,23 +15,21 @@ use app\models as Model;
 use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
-  
+
 /**
  * Controlador rrhh/
  *
  * @author Jorge Jara H. <jjara@wys.cl>
 */
-  
+
 class rrhhController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-        $u = new Model\Users($router);
-        
-        $op = array(2); 
-		echo $this->template->render('rrhh/rrhh', array('menu_op' => $op ));
+        $op = array(2);
+		    echo $this->template->render('rrhh/rrhh', array('menu_op' => $op ));
 
     }
 

@@ -1,6 +1,6 @@
 # Intregación de Framework OCREND CON AdminLTE.
 
-# Para prueba incial debe ingresar los siguientes datos:
+# Para prueba inicial debe ingresar los siguientes datos:
 
 <p> usuario: admin@wys.cl </p>
 <p> pass: 1 </p>

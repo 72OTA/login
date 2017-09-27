@@ -15,21 +15,20 @@ use app\models as Model;
 use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Controllers\Controllers;
 use Ocrend\Kernel\Controllers\IControllers;
-  
+
 /**
  * Controlador prevencion/
  *
  * @author Jorge Jara H. <jjara@wys.cl>
 */
-  
+
 class prevencionController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-        $u = new Model\Users($router);
-        
+          
         $op = array(5);
         echo $this->template->render('prevencion/prevencion', array('menu_op' => $op ));
 
