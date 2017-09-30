@@ -17,9 +17,9 @@ database:
 
 # Configuración de servidor SMTP
 phpmailer:
-  host:
-  user:
-  pass:
+  host: smtp.nielsen.cl
+  user: jorge.jara@nielsen.cl
+  pass: kr107701984
   port: 465
 
 # Configuración de sesiones

@@ -23,6 +23,17 @@ $app->post('/login', function() use($app) {
 });
 
 /**
+    * Modifica password usuario
+    *
+    * @return json
+*/
+$app->post('/resetpass', function() use($app) {
+    $u = new Model\Users;
+
+    return $app->json($u->resetpass());
+});
+
+/**
     * Inicio de sesión
     *
     * @return json

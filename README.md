@@ -8,4 +8,10 @@
 # Modulos Listos
 
 * Menu dinamico por perfil de usuario
-* Registro de usuarios
+* Registro de usuarios -> sólo usuario con perfil asignado
+* Recueperación de clave mediante correo
+* Modificación de clave usuario que ingresa
+
+
+# Adicionales
+* Alertas mediante jquery-confirm!

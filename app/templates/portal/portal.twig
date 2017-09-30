@@ -75,6 +75,9 @@
         </div>
 
     </div>
+
+    {% include 'portal/resetpass' %}
+
     {# Carga de jQuery #}
     {% if config.framework.debug %}
       {# jQuery para ver errores de ajax vía consola, no eliminar #}
@@ -103,8 +106,9 @@
     <!-- Alertas -->
     <script src="views/app/template/jquery-confirm/jquery-confirm.min.js"></script>
 
+    <script src="views/app/js/portal/portal.js"></script>
     {% block appScript %}
-        <script src="views/app/js/login/login.js"></script>
+
     {% endblock %}
 
     {# Scripts globales #}

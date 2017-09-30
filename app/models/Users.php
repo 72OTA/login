@@ -277,7 +277,7 @@ class Users extends Models implements IModels {
             $pass = $http->request->get('pass');
             $pass_repeat = $http->request->get('pass_repeat');
             $perfil = $http->request->get('perfil');
-            $admin = $http->request->get('admin');
+            $rol = $http->request->get('rol');
 
             # Verificar que no están vacíos
             if ($this->functions->e($name, $email, $pass, $pass_repeat)) {
@@ -287,7 +287,7 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Debe seleccionar un perfil');
             }
 
-            if (True == $admin) $admin =1; else $admin=0;
+            if (True == $rol) $rol =1; else $rol=0;
 
             # Verificar email
             $this->checkEmail($email);
@@ -300,7 +300,7 @@ class Users extends Models implements IModels {
                 'name' => $name,
                 'email' => $email,
                 'perfil' => $perfil,
-                'admin' => $admin,
+                'rol' => $rol,
                 'pass' => Strings::hash($pass)
             ));
 
@@ -310,6 +310,40 @@ class Users extends Models implements IModels {
             //));
 
             return array('success' => 1, 'message' => 'Registrado con éxito.');
+        } catch (ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
+    /**
+     * Realiza la acción de modificar password de usuario logueado
+     *
+     * @return array : Con información de éxito/falla al registrar el usuario nuevo.
+     */
+    public function resetpass() : array {
+        try {
+            global $http;
+
+            # Obtener los datos $_POST
+            $id_user = $http->request->get('id_user');
+            $pass = $http->request->get('pass');
+            $pass_repeat = $http->request->get('pass_repeat');
+
+            # Verificar que no están vacíos
+            if ($this->functions->e($pass, $pass_repeat)) {
+                throw new ModelsException('Todos los datos son necesarios');
+            }
+
+            # Veriricar contraseñas
+            $this->checkPassMatch($pass, $pass_repeat);
+
+            $pass = Strings::hash($pass);
+
+            # Actualiza contraseña
+            $this->db->query("UPDATE users SET pass='$pass', tmp_pass='', token=''
+            WHERE id_user='$id_user' LIMIT 1;");
+
+            return array('success' => 1, 'message' => 'Password actualizada con éxito.');
         } catch (ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
         }
@@ -450,7 +484,7 @@ class Users extends Models implements IModels {
      *
      * @param int $id_user : Obligatorio
      *
-     * $id_user=1 correspondiente a usuario administrador
+     * rol=1 correspondiente a usuario administrador
      *
      * @return false|array con información de los usuarios
      */
@@ -458,7 +492,7 @@ class Users extends Models implements IModels {
         $usuario = $this->getOwnerUser();
         $id_user = $usuario['id_user'];
 
-        if ( $usuario['admin'] == 1 )
+        if ( $usuario['rol'] == 1 )
             $result = $this->db->query_select("select m.id_menu,m.descripcion menu,m.glyphicon,sm.descripcion submenu,sm.url from tblmenu m inner join tblsubmenu sm on m.id_menu=sm.id_menu  where sm.estado=1  order by m.PosI,sm.PosS");
         else
             $result = $this->db->query_select("select m.id_menu,m.descripcion menu,m.glyphicon,sm.descripcion submenu,sm.url from (tblperfilesuser pu inner join tblmenu m on pu.id_menu=m.id_menu) inner join tblsubmenu sm on pu.id_menu=sm.id_menu and pu.id_submenu=sm.id_submenu where pu.id_user=$id_user order by m.PosI,sm.PosS");

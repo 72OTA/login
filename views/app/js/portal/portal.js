@@ -1,15 +1,15 @@
 /**
  * Ajax action to api rest
 */
-function lostpass(){
+function Resetpass(){
   $.ajax({
     type : "POST",
-    url : "api/lostpass",
-    data : $('#lostpass_form').serialize(),
+    url : "api/resetpass",
+    data : $('#resetpass_form').serialize(),
     success : function(json) {
       if(json.success == 1) {
         $.dialog({
-          title: 'Registro de usuario',
+          title: 'Reset Password',
           type: 'green',
           typeAnimated: true,
           content: json.message,
@@ -19,7 +19,7 @@ function lostpass(){
         },1000);
       }else{
         $.dialog({
-          title: 'Registro de usuario',
+          title: 'Reset Password',
           type: 'orange',
           typeAnimated: true,
           content: json.message,
@@ -28,7 +28,7 @@ function lostpass(){
     },
     error : function(/*xhr, status*/) {
       $.dialog({
-        title: 'Registro de usuarios',
+        title: 'Reset Password',
         type: 'red',
         typeAnimated: true,
         content: 'Ha ocurrido un problema.',
@@ -40,14 +40,14 @@ function lostpass(){
 /**
  * Events
  */
-$('#recuperar').click(function(e) {
+$('#reset_pass').click(function(e) {
   e.defaultPrevented;
-  lostpass();
+  Resetpass();
 });
-$('#lostpass_form').keypress(function(e) {
-  e.defaultPrevented;
+$('#resetpass_form').keypress(function(e) {
+    e.defaultPrevented;
     if(e.which == 13) {
-        lostpass();
+        Resetpass();
         return false;
     }
 });
