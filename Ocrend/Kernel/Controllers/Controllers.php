@@ -23,9 +23,9 @@ use Ocrend\Kernel\Helpers\Functions;
  */
 
 abstract class Controllers {
-    
+
     /**
-      * Obtiene el objeto del template 
+      * Obtiene el objeto del template
       *
       * @var \Twig_Environment
     */
@@ -51,14 +51,14 @@ abstract class Controllers {
       * @var \Ocrend\Kernel\Helpers\Functions
     */
     protected $functions;
-    
+
     /**
       * Arreglo con la información del usuario conectado actualmente.
       * Arreglo con el menu del usuario conectado
-      * @var array 
+      * @var array
     */
     protected $user = array();
-    
+
     protected $menu_user = array();
 
     /**
@@ -68,7 +68,7 @@ abstract class Controllers {
     */
     private $is_logged = false;
 
-    /** 
+    /**
       * Parámetros de configuración para el controlador con la forma:
       * 'parmáetro' => (bool) valor
       *
@@ -80,7 +80,7 @@ abstract class Controllers {
       * Configuración inicial de cualquier controlador
       *
       * @param IRouter $router: Instancia de un Router
-      * @param array|null $configController: Arreglo de configuración con la forma  
+      * @param array|null $configController: Arreglo de configuración con la forma
       *     'twig_cache_reload' => bool, # Configura el autoreload del caché de twig
       *     'users_logged' => bool, # Configura el controlador para solo ser visto por usuarios logeados
       *     'users_not_logged' => bool, # Configura el controlador para solo ser visto por !(usuarios logeados)
@@ -106,23 +106,23 @@ abstract class Controllers {
             'auto_reload' => $this->controllerConfig['twig_cache_reload'],
             # en true, las plantillas generadas tienen un método __toString() para mostrar los nodos generados
             'debug' => $config['framework']['debug']
-        )); 
-        
+        ));
+
         # Request global
         $this->template->addGlobal('get', $http->query->all());
         $this->template->addGlobal('server', $http->server->all());
         $this->template->addGlobal('session', $session->all());
         $this->template->addGlobal('config', $config);
         $this->template->addGlobal('is_logged', $this->is_logged);
-        
+
 
         # Datos del usuario actual
         if ($this->is_logged) {
           $this->user = (new Model\Users)->getOwnerUser();
           $this->template->addGlobal('owner_user', $this->user);
-          
-          
-          $this->   menu_user = (new Model\Users)->getMenu($this->user['id_user']);
+
+
+          $this->menu_user = (new Model\Users)->getMenu();
           $this->template->addGlobal('menu_user', $this->menu_user );
         }
 
@@ -141,7 +141,7 @@ abstract class Controllers {
      * Establece los parámetros de configuración de un controlador
      *
      * @param IRouter $router: Instancia de un Router
-     * @param array|null $config: Arreglo de configuración   
+     * @param array|null $config: Arreglo de configuración
      *
      * @return void
      */
@@ -167,7 +167,7 @@ abstract class Controllers {
         }
       }
     }
-    
+
     /**
      * Acción que regula quién entra o no al controlador según la configuración
      *

@@ -2,20 +2,37 @@
  * Ajax action to api rest
 */
 function login(){
-  $.ajax({ 
+  $.ajax({
     type : "POST",
     url : "api/login",
     data : $('#login_form').serialize(),
     success : function(json) {
-      alert(json.message);
       if(json.success == 1) {
+        $.dialog({
+          title: 'Acceso a sistema',
+          type: 'green',
+          typeAnimated: true,
+          content: json.message,
+        });
         setTimeout(function(){
-            location.reload();
+            location.href = "portal/";
         },1000);
+      }else{
+        $.dialog({
+          title: 'Acceso a sistema',
+          type: 'orange',
+          typeAnimated: true,
+          content: json.message,
+        });
       }
     },
     error : function(/*xhr, status*/) {
-      alert('Ha ocurrido un problema.');
+      $.dialog({
+        title: 'Acceso a sistema',
+        type: 'red',
+        typeAnimated: true,
+        content: 'Ha ocurrido un problema.',
+      });
     }
   });
 }

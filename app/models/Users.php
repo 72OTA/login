@@ -239,6 +239,10 @@ class Users extends Models implements IModels {
             if ($this->functions->e($email, $pass)) {
                 throw new ModelsException('Credenciales incompletas.');
             }
+            # Verificar email
+            if (!Strings::is_email($email)) {
+                throw new ModelsException('El email no tiene un formato válido.');
+            }
 
             # Añadir intentos
             $this->setNewAttempt($email);
@@ -282,6 +286,8 @@ class Users extends Models implements IModels {
             elseif ($perfil == '--'){
                 throw new ModelsException('Debe seleccionar un perfil');
             }
+
+            if (True == $admin) $admin =1; else $admin=0;
 
             # Verificar email
             $this->checkEmail($email);
@@ -350,8 +356,8 @@ class Users extends Models implements IModels {
 
             # Enviar el correo electrónico
             $dest = array();
-			$dest[$email] = $user_data[0]['name'];
-			$email = Emails::send_mail($dest,Emails::plantilla($HTML),'Recuperar contraseña perdida');
+      			$dest[$email] = $user_data[0]['name'];
+      			$email = Emails::send_mail($dest,Emails::plantilla($HTML),'Recuperar contraseña perdida');
 
             # Verificar si hubo algún problema con el envío del correo
             if(false === $email) {
@@ -435,8 +441,8 @@ class Users extends Models implements IModels {
      *
      * @return false|array con información de los usuarios
      */
-    public function getUsers(string $select = '*') {
-        return $this->db->select($select,'users');
+    public function getUsers(string $select = '*',string $filtro) {
+        return $this->db->select($select,'users',$filtro);
     }
 
     /**
@@ -448,8 +454,11 @@ class Users extends Models implements IModels {
      *
      * @return false|array con información de los usuarios
      */
-    public function getMenu(int $id_user) {
-        if ($id_user==1)
+    public function getMenu() {
+        $usuario = $this->getOwnerUser();
+        $id_user = $usuario['id_user'];
+
+        if ( $usuario['admin'] == 1 )
             $result = $this->db->query_select("select m.id_menu,m.descripcion menu,m.glyphicon,sm.descripcion submenu,sm.url from tblmenu m inner join tblsubmenu sm on m.id_menu=sm.id_menu  where sm.estado=1  order by m.PosI,sm.PosS");
         else
             $result = $this->db->query_select("select m.id_menu,m.descripcion menu,m.glyphicon,sm.descripcion submenu,sm.url from (tblperfilesuser pu inner join tblmenu m on pu.id_menu=m.id_menu) inner join tblsubmenu sm on pu.id_menu=sm.id_menu and pu.id_submenu=sm.id_submenu where pu.id_user=$id_user order by m.PosI,sm.PosS");
@@ -499,30 +508,6 @@ class Users extends Models implements IModels {
         }
 
         throw new \RuntimeException('El usuario no está logeado.');
-    }
-
-    /**
-     * Instala el módulo de usuarios en la base de datos para que pueda funcionar correctamete.
-     *
-     * @throws \RuntimeException si no se puede realizar la query
-     */
-    public function install() {
-        if (!$this->db->query("
-            CREATE TABLE IF NOT EXISTS `users` (
-                `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-                `name` varchar(100) NOT NULL,
-                `email` varchar(150) NOT NULL,
-                `pass` varchar(90) NOT NULL,
-                `tmp_pass` varchar(90) NOT NULL,
-                `token` varchar(90) NOT NULL,
-                PRIMARY KEY (`id_user`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-        ")) {
-            throw new \RuntimeException('No se ha podido instalar el módulo de usuarios.');
-        }
-
-        dump('Módulo instalado correctamente, el método <b>(new Model\Users)->install()</b> puede ser borrado.');
-        exit(1);
     }
 
     /**

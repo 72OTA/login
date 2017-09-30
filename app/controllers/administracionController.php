@@ -30,11 +30,11 @@ class administracionController extends Controllers implements IControllers {
         ));
         $u = new Model\Users($router);
 
-        
+
 
         $op = array(99);
         switch($this->method){
-            case 'perfiles': echo $this->template->render('administracion/perfiles', array('menu_op' => $op, 'db_perfiles' => $u->getPerfiles(),'db_users' => $u->getUsers() )); break;
+            case 'perfiles': echo $this->template->render('administracion/perfiles', array('menu_op' => $op, 'db_perfiles' => $u->getPerfiles(),'db_users' => $u->getUsers('*','admin=0 and estado=1') )); break;
             case 'usuario': echo $this->template->render('administracion/usuarios', array('menu_op' => $op, 'db_perfiles' => $u->getPerfiles() )); break;
             default:
                 echo $this->template->render('error/error_portal',array('menu_op' => $op ));

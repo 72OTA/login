@@ -27,6 +27,7 @@
                         <form id="form_select_perfil" method="post" action="" name="form_select_perfil">
                             <label>
                               <select name='select_perfil' onchange=lista_perfil_primario_check();>
+                                <option>--</option>
                                 {% for p in db_perfiles if false != db_perfiles %}
                                 <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
                                 {% endfor %}
@@ -46,6 +47,7 @@
                         <form id="form_usuario_perfil" method="post" action="" name="form_usuario_perfil">
                             <label>
                                 <select name=select_usuario_perfil onchange="listar_perfil_usuario_check(); return false" >
+                                   <option>--</option>
                                    {% for u in db_users if false != db_users %}
                                    <option value='{{ u.id_user }}'>{{ u.name }}</option>
                                    {% endfor %}

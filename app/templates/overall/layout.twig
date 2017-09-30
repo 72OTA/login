@@ -12,6 +12,8 @@
     <link href="views/app/css/framework.min.css" rel="stylesheet" />
     <link href="views/app/css/login.css" rel="stylesheet" />
     <link href="views/app/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <!-- Alertas -->
+    <link rel="stylesheet" href="views/app/template/jquery-confirm/jquery-confirm.min.css">
 
     {# Título #}
     <title>{{ config.site.name }}</title>
@@ -20,7 +22,7 @@
     {% block appHeader %}
       <!-- :) -->
     {% endblock %}
-    
+
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -41,14 +43,18 @@
       {# jQuery para su plantilla, este puede ser modificado a voluntad #}
       <script src="views/app/vendor/jquery/jquery.min.js"></script>
     {% endif %}
+    
+    <script src="views/app/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- Alertas -->
+    <script src="views/app/template/jquery-confirm/jquery-confirm.min.js"></script>
 
     {# Scripts globales #}
-    <script src="views/app/vendor/bootstrap/js/bootstrap.min.js"></script>
     {% block appScript %}
       <!-- :) -->
     {% endblock %}
-   
-   
+
+
     {# Footer #}
     {% block appFooter %}
       <!-- :) -->

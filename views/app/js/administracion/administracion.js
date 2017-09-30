@@ -7,15 +7,32 @@ function register(){
     url : "api/register",
     data : $('#register_form').serialize(),
     success : function(json) {
-      alert(json.message);
       if(json.success == 1) {
+        $.dialog({
+          title: 'Registro de usuario',
+          type: 'green',
+          typeAnimated: true,
+          content: json.message,
+        });
         setTimeout(function(){
             location.reload();
         },1000);
+      }else{
+        $.dialog({
+          title: 'Registro de usuario',
+          type: 'orange',
+          typeAnimated: true,
+          content: json.message,
+        });
       }
     },
     error : function(/*xhr, status*/) {
-      alert('Ha ocurrido un problema.');
+      $.dialog({
+        title: 'Registro de usuarios',
+        type: 'red',
+        typeAnimated: true,
+        content: 'Ha ocurrido un problema.',
+      });
     }
   });
 }
