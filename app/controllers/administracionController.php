@@ -28,17 +28,22 @@ class administracionController extends Controllers implements IControllers {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-        $u = new Model\Users($router);
 
 
 
-        $op = array(99);
-        switch($this->method){
-            case 'perfiles': echo $this->template->render('administracion/perfiles', array('menu_op' => $op, 'db_perfiles' => $u->getPerfiles(),'db_users' => $u->getUsers('*','admin=0 and estado=1') )); break;
-            case 'usuario': echo $this->template->render('administracion/usuarios', array('menu_op' => $op, 'db_perfiles' => $u->getPerfiles() )); break;
-            default:
-                echo $this->template->render('error/error_portal',array('menu_op' => $op ));
-                break;
+        if ($this->user['rol'] == 1){
+          $u = new Model\Users($router);
+          $op = array(99);
+          switch($this->method){
+              case 'perfiles': echo $this->template->render('administracion/perfiles', array('menu_op' => $op, 'db_perfiles' => $u->getPerfiles(),'db_users' => $u->getUsers('*','rol=0 and estado=1') )); break;
+              case 'usuario': echo $this->template->render('administracion/usuarios', array('menu_op' => $op, 'db_perfiles' => $u->getPerfiles() )); break;
+              default:
+                  echo $this->template->render('error/error_portal',array('menu_op' => $op ));
+                  break;
+          }
+        }else{
+          $op = array(0);
+          echo $this->template->render('error/error_nopermitido',array('menu_op' => $op ));
         }
 
 

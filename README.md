@@ -9,9 +9,10 @@
 
 * Menu dinamico por perfil de usuario
 * Registro de usuarios -> sólo usuario con perfil asignado
-* Recueperación de clave mediante correo
-* Modificación de clave usuario que ingresa
+* Recuperación de clave mediante correo
+* Modificación de clave usuario logueado
 
 
 # Adicionales
+
 * Alertas mediante jquery-confirm!

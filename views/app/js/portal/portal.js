@@ -1,38 +1,70 @@
 /**
- * Ajax action to api rest
+ * Ajax msg_box_alert
+ *@param opcion = resultado de la respuesta desde el Modelo (json.success)
+ *@param titulo = titulo de mensaje
+ *@param message = puede ser un mensaje personalizado o el que entrega el modelo (json.message)
+ *@param accionsuccess = Accion a Ejecutar si json.success = 1   (reload|redirect) => opcional
+ *@param accion_redirect = en caso de Ejecutar redirect (agregar controlador a redirigir) => opcional
+ *@message
 */
-function Resetpass(){
+
+function msg_box_alert(opcion,titulo,message,accionsuccess,accion_redirect){
+  if (opcion == 0 ){ //alert
+    $.dialog({
+      title: titulo,
+      type: 'orange',
+      typeAnimated: true,
+      content: message,
+    });
+  }else if (opcion == 1 ) { //sucess
+    $.dialog({
+      title: titulo,
+      type: 'green',
+      typeAnimated: true,
+      content: message,
+    });
+    if (accionsuccess == 'reload'){
+      setTimeout(function(){
+          location.reload();
+      },1000);
+    }else if (accionsuccess == 'redirect'){
+      setTimeout(function(){
+          location.href(accion_redirect);
+      },1000);
+    }
+  }else if (opcion == 99 ) { //error
+    $.dialog({
+      title: titulo,
+      type: 'red',
+      typeAnimated: true,
+      content: message,
+    });
+  }
+}
+
+/**
+ * Ajax execute_accion
+ * @param method = metodo de envio de datos
+ * @param api_rest = corresponde a funcion agregada en api/http/@method  (no se si realmente de se llama asi)
+ * @param fomulario = formulario de donde se extrae la informacion a enviar
+ * @param paramaccion = Accion a Ejecutar si json.success = 1   (reload|redirect) => opcional
+ * incluye funcion msg_box_alert
+*/
+function execute_accion_portal(method,api_rest,formulario,accion){
+  switch(api_rest) {
+    case "resetpass":
+      title='Modifica contraseña';
+      break;
+  }
   $.ajax({
-    type : "POST",
-    url : "api/resetpass",
-    data : $('#resetpass_form').serialize(),
+    type : method,
+    url : 'api/'+api_rest,
+    data : $('#'+ formulario).serialize(),
     success : function(json) {
-      if(json.success == 1) {
-        $.dialog({
-          title: 'Reset Password',
-          type: 'green',
-          typeAnimated: true,
-          content: json.message,
-        });
-        setTimeout(function(){
-            location.reload();
-        },1000);
-      }else{
-        $.dialog({
-          title: 'Reset Password',
-          type: 'orange',
-          typeAnimated: true,
-          content: json.message,
-        });
-      }
+      msg_box_alert(json.success,title,json.message,accion);
     },
     error : function(/*xhr, status*/) {
-      $.dialog({
-        title: 'Reset Password',
-        type: 'red',
-        typeAnimated: true,
-        content: 'Ha ocurrido un problema.',
-      });
+      msg_box_alert(99,title,'Ha ocurrido un problema.');
     }
   });
 }
@@ -42,12 +74,12 @@ function Resetpass(){
  */
 $('#reset_pass').click(function(e) {
   e.defaultPrevented;
-  Resetpass();
+  execute_accion_portal("POST","resetpass","resetpass_form","reload");
 });
 $('#resetpass_form').keypress(function(e) {
     e.defaultPrevented;
     if(e.which == 13) {
-        Resetpass();
+        execute_accion_portal("POST","resetpass","resetpass_form","reload");
         return false;
     }
 });

@@ -49,10 +49,10 @@ $app->post('/logout', function() use($app) {
     *
     * @return json
 */
-$app->post('/register', function() use($app) {
+$app->post('/registra_nuevo_usuario', function() use($app) {
     $u = new Model\Users;
 
-    return $app->json($u->register());
+    return $app->json($u->registra_nuevo_usuario());
 });
 
 /**
@@ -64,4 +64,25 @@ $app->post('/lostpass', function() use($app) {
     $u = new Model\Users;
 
     return $app->json($u->lostpass());
+});
+
+/**
+    * Recuperar contraseña perdida
+    *
+    * @return json
+*/
+$app->post('/registra_nuevo_perfil', function() use($app) {
+    $u = new Model\Users;
+
+    return $app->json($u->registra_nuevo_perfil());
+});
+/**
+    * Elimina perfil seleccionado
+    *
+    * @return json
+*/
+$app->post('/delete_perfil', function() use($app) {
+    $u = new Model\Users;
+
+    return $app->json($u->delete_perfil());
 });

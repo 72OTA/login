@@ -37,7 +37,10 @@
                                 <input type='button' name='Submit' value='Consultar' id='submit' onclick="lista_perfil_primario_check(); return false"/>
                             </label>
                             <label>
-                                <input type='button' name='nuevoperfil' value='Nuevo perfil' id='nuevoperfil' onclick="nuevo_perfil_primario(); return false">
+                                <input type='button' name='nuevoperfil' value='Nuevo perfil' id='nuevoperfil' data-toggle="modal" data-target="#modal_new_perfil">
+                            </label>
+                            <label>
+                                <input type='button' name='deleteperfil' value='Elimina perfil' id='deleteperfil'>
                             </label>
                         </form>
                         <div id="bloque_perfil_primaro"></div>
@@ -64,6 +67,7 @@
         </div>
     </div>
 </section>
+{% include 'administracion/nuevo_perfil' %}
 {% endblock %}
 {% block appScript %}
     <script src="views/app/js/administracion/administracion.js"></script>

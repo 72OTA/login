@@ -267,7 +267,7 @@ class Users extends Models implements IModels {
      *
      * @return array : Con información de éxito/falla al registrar el usuario nuevo.
      */
-    public function register() : array {
+    public function registra_nuevo_usuario() : array {
         try {
             global $http;
 
@@ -314,6 +314,66 @@ class Users extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
+
+    /**
+     * Realiza la acción de registro dentro del sistema
+     *
+     * @return array : Con información de éxito/falla al registrar el usuario nuevo.
+     */
+    public function registra_nuevo_perfil() : array {
+        try {
+            global $http;
+
+            # Obtener los datos $_POST
+            $new_perfil = strtoupper($http->request->get('new_perfil'));
+
+            # Verificar que no están vacíos
+            if ($this->functions->e($new_perfil)) {
+                throw new ModelsException('Todos los datos son necesarios');
+            }
+            # Registrar perfil
+            $this->db->insert('tblperfiles', array(
+                'nombre' => $new_perfil,
+                'idopcion' => 0,
+                'idsubmenu' => 0
+            ));
+
+            return array('success' => 1, 'message' => 'Registrado con éxito.');
+        } catch (ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
+    /**
+     * Realiza la acción de eliminación dentro del sistema
+     *
+     * @return array : Con información de éxito/falla al registrar el usuario nuevo.
+     */
+    public function delete_perfil() : array {
+        try {
+            global $http;
+
+            # Obtener los datos $_POST
+            $perfil = $http->request->get('select_perfil');
+
+            # Verificar que no están vacíos
+            if ($this->functions->e($perfil)) {
+                throw new ModelsException('Todos los datos son necesarios');
+            }elseif ($perfil == '--'){
+                throw new ModelsException('Debe seleccionar un perfil valido');
+            }elseif ($perfil == 'Otro'){
+                  throw new ModelsException('Perfil por defecto no puede ser eliminado');
+            }
+            # Elimina perfil
+            $this->db->query("Delete from tblperfiles
+            WHERE nombre='$perfil' LIMIT 1;");
+
+            return array('success' => 1, 'message' => 'Eliminación éxitosa.');
+        } catch (ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
 
     /**
      * Realiza la acción de modificar password de usuario logueado
