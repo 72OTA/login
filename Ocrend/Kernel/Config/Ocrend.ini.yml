@@ -19,7 +19,7 @@ database:
 phpmailer:
   host:
   user:
-  pass: 
+  pass:
   port: 465
 
 # Configuración de sesiones

@@ -1,99 +1,56 @@
 {% extends 'portal/portal' %}
 {% block appBody %}
-    <section class="content-header">
-        <h4>
+  <section class="content-header">
+      <h4>
         <i class="fa fa-user"></i> REGISTRO DE USUARIOS
-        </h4>
-    </section>
+      </h4>
+      <ol class="breadcrumb">
+        <li><a href="portal"><i class="fa fa-home"></i> Inicio </a></li>
+        <li><a href="administracion/usuario"> Usuarios </a></li>
+        <li class="active"> agregar </li>
+      </ol>
+  </section>
 
-    <section class="content">
-        <div class="box">
-            <div class="box-header with-border">
-              <div class="box-tools pull-right">
-                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <form id="register_user_form"  action="" method="POST">
+            <div class="box-body col-sm-4"></div>
+            <div class="box-body col-sm-4">
+              <div class="form-group">
+                <input class="form-control" name="name"        id="name"        type="text"     placeholder="Nombre Completo" required/>
+                <input class="form-control" name="email"       id="email"       type="email"    placeholder="E-Mail" required/>
+                <input class="form-control" name="fono"       id="fono"       type="text"    placeholder="Fono" required/>
+              </div>
+              <div class="form-group">
+                <input class="form-control" name="pass"        id="pass"        type="password" placeholder="Password" required/>
+                <input class="form-control" name="pass_repeat" id="pass_repeat" type="password" placeholder="Repita Password" required/>
+              </div>
+              <div class="form-group">
+                <select name='perfil' id='perfil' class='form-control'>
+                <option selected='selected'>--</option>
+                {% for p in db_perfiles if false != db_perfiles %}
+                <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
+                {% endfor %}
+                <option value='Otro'>Otro</option>
+                </select>
+              </div>
+              <div class="checkbox">
+                <label>
+                <input name="rol" type="checkbox" id="admin" /> Usuario Administrador?
+                </label>
+              </div>
+              <div class="form-group">
+                <button type="button" id="register" class="btn btn-default">Grabar</button>
+                <button type="reset" id="limpiar" class="btn btn-default">Limpiar</button>
               </div>
             </div>
-            <div class="box-body">
-              <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs pull-rigth">
-                  <li class="active"><a href="#tab_1-1" data-toggle="tab">REGISTROS</a></li>
-                  <li><a href="#tab_2-2" data-toggle="tab">ACTUALIZAR</a></li>
-
-                  <li class="pull-left header"></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="tab_1-1">
-                        <b>Ingrese Datos de Usuario</b>
-                        <div id="bloque_registro"></div>
-                        <div class="box box-info">
-                            <form id="register_form"  action="" method="POST">
-                                <div class="box-body col-sm-4">
-
-                                    <div class="form-group">
-                                        <input class="form-control" name="name"        id="name"        type="text"     placeholder="Nombre Completo" required/>
-                                        <input class="form-control" name="email"       id="email"       type="email"    placeholder="E-Mail" required/>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input class="form-control" name="pass"        id="pass"        type="password" placeholder="Password" required/>
-                                        <input class="form-control" name="pass_repeat" id="pass_repeat" type="password" placeholder="Repita Password" required/>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <select name='perfil' id='perfil' class='form-control'>
-                                            <option selected='selected'>--</option>
-                                            {% for p in db_perfiles if false != db_perfiles %}
-                                            <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
-                                            {% endfor %}
-                                            <option value='Otro'>Otro</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="checkbox">
-                                        <label>
-                                            <input name="rol" type="checkbox" id="admin" /> Usuario Administrador?
-                                        </label>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input type="button" id="register" value="Grabar" />
-                                        <input type="reset" name="Limpiar" value="Limpiar" />
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div id="bloque_registro"></div>
-                    </div><!-- /.tab-pane -->
-
-                    <div class="tab-pane" id="tab_2-2">
-                        <b>Seleccione Perfil para filtrar</b>
-                        <div class="box box-info">
-
-
-                            <div class="row">
-                                <div class="box-body col-sm-4">
-                                    <form name="filtra_usuario_perfil" action="" method="POST" onsubmit="consultausuarioperfil(); return false">
-                                        <select name='perfil_f' id='perfil_f' class='form-control'>
-                                            <option selected='selected'>--</option>
-                                            {% for p in db_perfiles if false != db_perfiles %}
-                                            <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
-                                            {% endfor %}
-                                            <option value='Otro'>Otro</option>
-                                        </select>
-                                        <input type="submit" name="Submit" value="Buscar" onclick="consultausuarioperfil(); return false" />
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="table-responsive" id="bloque_listausuarios"></div>
-                        </div>
-
-                    </div><!-- /.tab-pane -->
-                </div>
-              </div>
-            </div>
+          </form>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 {% endblock %}
 {% block appScript %}
     <script src="views/app/js/administracion/administracion.js"></script>

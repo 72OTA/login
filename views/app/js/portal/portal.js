@@ -7,7 +7,6 @@
  *@param accion_redirect = en caso de Ejecutar redirect (agregar controlador a redirigir) => opcional
  *@message
 */
-
 function msg_box_alert(opcion,titulo,message,accionsuccess,accion_redirect){
   if (opcion == 0 ){ //alert
     $.dialog({
@@ -29,7 +28,7 @@ function msg_box_alert(opcion,titulo,message,accionsuccess,accion_redirect){
       },1000);
     }else if (accionsuccess == 'redirect'){
       setTimeout(function(){
-          location.href(accion_redirect);
+          location.href = accion_redirect;
       },1000);
     }
   }else if (opcion == 99 ) { //error
@@ -47,10 +46,11 @@ function msg_box_alert(opcion,titulo,message,accionsuccess,accion_redirect){
  * @param method = metodo de envio de datos
  * @param api_rest = corresponde a funcion agregada en api/http/@method  (no se si realmente de se llama asi)
  * @param fomulario = formulario de donde se extrae la informacion a enviar
- * @param paramaccion = Accion a Ejecutar si json.success = 1   (reload|redirect) => opcional
+ * @param accionsuccess = Accion a Ejecutar si json.success = 1   (reload|redirect) => opcional
+ * @param accion_redirect = en caso de Ejecutar redirect (agregar controlador a redirigir) => opcional
  * incluye funcion msg_box_alert
 */
-function execute_accion_portal(method,api_rest,formulario,accion){
+function execute_accion_portal(method,api_rest,formulario,accion,accion_redirect){
   switch(api_rest) {
     case "resetpass":
       title='Modifica contraseña';
@@ -61,7 +61,7 @@ function execute_accion_portal(method,api_rest,formulario,accion){
     url : 'api/'+api_rest,
     data : $('#'+ formulario).serialize(),
     success : function(json) {
-      msg_box_alert(json.success,title,json.message,accion);
+      msg_box_alert(json.success,title,json.message,accion,accion_redirect);
     },
     error : function(/*xhr, status*/) {
       msg_box_alert(99,title,'Ha ocurrido un problema.');

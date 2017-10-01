@@ -1,0 +1,67 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+  <section class="content-header">
+      <h4>
+        <i class="fa fa-user"></i> EDITAR USUARIO
+      </h4>
+      <ol class="breadcrumb">
+        <li><a href="portal"><i class="fa fa-home"></i> Inicio </a></li>
+        <li><a href="administracion/usuario"> Usuarios </a></li>
+        <li class="active"> editar </li>
+      </ol>
+  </section>
+
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <form id="update_user_form"  action="" method="POST">
+            <input type='hidden' name='id_user' value='{{ db_users.id_user }}' />
+            <div class="box-body col-sm-4"></div>
+            <div class="box-body col-sm-4">
+              <div class="form-group">
+                <input class="form-control" name="name"        id="name"        type="text"     placeholder="Nombre Completo" value='{{ db_users.name|raw|upper }}'/>
+                <input class="form-control" name="email"       id="email"       type="email"    placeholder="E-Mail" value='{{ db_users.email }}' readonly/>
+                <input class="form-control" name="fono"       id="fono"       type="text"    placeholder="Fono" value='{{ db_users.fono }}'/>
+              </div>
+              <div class="form-group">
+                <select name='perfil' id='perfil' class='form-control'>
+                  <option>--</option>
+                  {% for p in db_perfiles if false != db_perfiles %}
+                    {% if p.nombre == db_users.perfil  %}
+                      <option value='{{ p.nombre }}' selected='selected'>{{ p.nombre }}</option>
+                    {% else %}
+                      <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
+                    {% endif %}
+                  {% endfor %}
+                  {% if 'Otro' == db_users.perfil  %}
+                    <option value='Otro' selected='selected'>Otro</option>
+                  {% else %}
+                    <option value='Otro'>Otro</option>
+                  {% endif %}
+                </select>
+              </div>
+              <div class="checkbox">
+                <label>
+                  {% if 0 == db_users.rol  %}
+                    <input name="rol" type="checkbox" id="admin" />
+                  {% else %}
+                    <input name="rol" type="checkbox" id="admin" checked />
+                  {% endif %}
+                  Usuario Administrador?
+
+                </label>
+              </div>
+              <div class="form-group">
+                <button type="button" id="update_user" class="btn btn-default">Grabar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/administracion/administracion.js"></script>
+{% endblock %}

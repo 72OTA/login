@@ -142,10 +142,10 @@ class Users extends Models implements IModels {
      */
     private function authentication(string $email,string $pass) : bool {
         $email = $this->db->scape($email);
-        $query = $this->db->select('id_user,pass','users',"email='$email'",'LIMIT 1');
+        $query = $this->db->select('id_user,pass,estado','users',"email='$email'",'LIMIT 1');
 
         # Incio de sesión con éxito
-        if(false !== $query && Strings::chash($query[0]['pass'],$pass) ) {
+        if(false !== $query && Strings::chash($query[0]['pass'],$pass) && $query[0]['estado'] == 1 ) {
             //
 
             # Restaurar intentos
@@ -274,6 +274,7 @@ class Users extends Models implements IModels {
             # Obtener los datos $_POST
             $name = $http->request->get('name');
             $email = $http->request->get('email');
+            $fono = $http->request->get('fono');
             $pass = $http->request->get('pass');
             $pass_repeat = $http->request->get('pass_repeat');
             $perfil = $http->request->get('perfil');
@@ -299,15 +300,58 @@ class Users extends Models implements IModels {
             $this->db->insert('users', array(
                 'name' => $name,
                 'email' => $email,
+                'fono' => $fono,
                 'perfil' => $perfil,
                 'rol' => $rol,
                 'pass' => Strings::hash($pass)
             ));
 
-            # Iniciar sesión
-            //$this->generateSession(array(
-            //    'id_user' => $this->db->lastInsertId()
-            //));
+            return array('success' => 1, 'message' => 'Registrado con éxito.');
+        } catch (ModelsException $e) {
+            return array('success' => 0, 'message' => $e->getMessage());
+        }
+    }
+
+    /**
+     * Realiza la acción de actualización dentro del sistema
+     *
+     * @return array : Con información de éxito/falla al registrar el usuario nuevo.
+     */
+    public function update_usuario() : array {
+        try {
+            global $http;
+
+            # Obtener los datos $_POST
+            $id_user = $http->request->get('id_user');
+            $name = $http->request->get('name');
+            $email = $http->request->get('email');
+            $fono = $http->request->get('fono');
+            $perfil = $http->request->get('perfil');
+            $rol = $http->request->get('rol');
+
+            # Verificar que no están vacíos
+            if ($this->functions->e($name, $email)) {
+                throw new ModelsException('Todos los datos son necesarios');
+            }
+            elseif ($perfil == '--'){
+                throw new ModelsException('Debe seleccionar un perfil');
+            }
+
+            if (True == $rol) $rol =1; else $rol=0;
+
+            # Verificar email
+            if (!Strings::is_email($email)) {
+                throw new ModelsException('El email no tiene un formato válido.');
+            }
+
+            # Actualiza usuario
+            $this->db->update('users',array(
+              'name' => $name,
+              'email' => $email,
+              'fono' => $fono,
+              'perfil' => $perfil,
+              'rol' => $rol
+            ),"id_user='$id_user'",'LIMIT 1');
 
             return array('success' => 1, 'message' => 'Registrado con éxito.');
         } catch (ModelsException $e) {

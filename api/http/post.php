@@ -54,7 +54,16 @@ $app->post('/registra_nuevo_usuario', function() use($app) {
 
     return $app->json($u->registra_nuevo_usuario());
 });
+/**
+    * Registro de un usuario
+    *
+    * @return json
+*/
+$app->post('/update_usuario', function() use($app) {
+    $u = new Model\Users;
 
+    return $app->json($u->update_usuario());
+});
 /**
     * Recuperar contraseña perdida
     *
@@ -85,4 +94,14 @@ $app->post('/delete_perfil', function() use($app) {
     $u = new Model\Users;
 
     return $app->json($u->delete_perfil());
+});
+/**
+    * Elimina perfil seleccionado
+    *
+    * @return json
+*/
+$app->post('/reset_pass_user', function() use($app) {
+    $u = new Model\Users;
+
+    return $app->json($u->resetpass());
 });

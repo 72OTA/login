@@ -1,0 +1,76 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+{% endblock %}
+{% block appBody %}
+  <section class="content-header">
+      <h4>
+        <i class="fa fa-user"></i> GESTIÓN DE USUARIOS
+        <a class="btn btn-primary btn-social pull-right" href="administracion/registro_user" title="Agregar" data-toggle="tooltip">
+          <i class="fa fa-plus"></i> Agregar
+        </a>
+      </h4>
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <div class="box-body">
+          <table id="dataTables1" class="table table-bordered">
+            <thead>
+              <tr>
+                <th>No</th>
+              	<th>Nombre</th>
+              	<th>E-Mail</th>
+                <th>Fono</th>
+                <th>PERFIL</th>
+              	<th>ROL</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% set No = 1 %}
+              {% for d in db_users if false != db_users %}
+                <tr>
+                  <td>{{ No }}</td>
+                  <td>{{ d.name|raw|title }}</td>
+                  <td>{{ d.email }}</td>
+                  <td>{{ d.fono }}</td>
+                  <td>{{ d.perfil  }}</td>
+                  <td>{{ d.rol ? "Admin":"Usuario"  }}</td>
+                  <td class='center' width='150'>
+                    <a data-toggle='tooltip' data-placement='top' title='Modificar' class='btn btn-success btn-sm' href="administracion/editar_user/{{ d.id_user }}">
+                    <i class='glyphicon glyphicon-edit'></i>
+                    </a>
+                    <button type="button" id="btn_reset_pass" title='Reset Pass' class="btn btn-info btn-sm" data-toggle="modal" onclick="carga_modal_reset_pass('{{ d.id_user }}')"><i class='glyphicon glyphicon-cog'></i></button>
+                    {% if d.estado == 0 %}
+                        <button type="button" id="active_user" title='Bloqueado' class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-off"></i></button>
+                    {% else %}
+                        <button type="button" id="desactive_user" title='Activo' class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-check"></i></button>
+                    {% endif %}
+
+                  </td>
+                </tr>
+                {% set No =  No + 1 %}
+              {% endfor %}
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% include 'administracion/reset_pass_user' %}
+{% endblock %}
+{% block appScript %}
+    <!-- DATA TABES SCRIPT -->
+    <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="views/app/js/administracion/administracion.js"></script>
+
+    <script>
+      $("#dataTables1").dataTable();
+    </script>
+
+{% endblock %}

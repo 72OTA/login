@@ -28,18 +28,45 @@ class administracionController extends Controllers implements IControllers {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-
+        global $config;
 
 
         if ($this->user['rol'] == 1){
           $u = new Model\Users($router);
           $op = array(99);
           switch($this->method){
-              case 'perfiles': echo $this->template->render('administracion/perfiles', array('menu_op' => $op, 'db_perfiles' => $u->getPerfiles(),'db_users' => $u->getUsers('*','rol=0 and estado=1') )); break;
-              case 'usuario': echo $this->template->render('administracion/usuarios', array('menu_op' => $op, 'db_perfiles' => $u->getPerfiles() )); break;
-              default:
-                  echo $this->template->render('error/error_portal',array('menu_op' => $op ));
-                  break;
+            case 'perfiles':
+              echo $this->template->render('administracion/perfiles', array(
+                'menu_op' => $op,
+                'db_perfiles' => $u->getPerfiles(),
+                'db_users' => $u->getUsers('*','rol=0 and estado=1') ));
+                break;
+            case 'usuario':
+              echo $this->template->render('administracion/listado_usuarios', array(
+                'menu_op' => $op,
+                'db_users' => $u->getUsers('*','1=1') ));
+                break;
+            case 'registro_user': echo $this->template->render('administracion/usuarios', array(
+              'menu_op' => $op,
+              'db_perfiles' => $u->getPerfiles() ));
+              break;
+            case 'editar_user':
+              if($this->isset_id and false !== ($data = $u->getUserById($router->getId()))) {
+                echo $this->template->render('administracion/edit_user', array(
+                  'menu_op' => $op,
+                  'db_users' => $data[0],
+                  'db_perfiles' => $u->getPerfiles()
+                ));
+              } else {
+                $this->functions->redir($config['site']['url'] . 'administracion/&error=true');
+              }
+              break;
+            case "estado_user":
+                //$u->getPerfiles();
+                break;
+            default:
+              echo $this->template->render('error/error_portal',array('menu_op' => $op ));
+              break;
           }
         }else{
           $op = array(0);
