@@ -358,7 +358,22 @@ class Users extends Models implements IModels {
             return array('success' => 0, 'message' => $e->getMessage());
         }
     }
+    /**
+      * Actualiza estado de usuario
+      * y luego redirecciona a administracion/usuarios
+      *
+      * @return void
+    */
+    final public function update_estado_user() {
+        global $config;
 
+        # Actualiza Estado
+        $this->db->query("UPDATE users SET estado=if(estado=0,1,0)
+        WHERE id_user='$this->id' LIMIT 1;");
+
+        # Redireccionar a la página principal del controlador
+        $this->functions->redir($config['site']['url'] . 'administracion/usuario');
+    }
     /**
      * Realiza la acción de registro dentro del sistema
      *

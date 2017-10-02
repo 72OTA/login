@@ -44,9 +44,15 @@
                     </a>
                     <button type="button" id="btn_reset_pass" title='Reset Pass' class="btn btn-info btn-sm" data-toggle="modal" onclick="carga_modal_reset_pass('{{ d.id_user }}')"><i class='glyphicon glyphicon-cog'></i></button>
                     {% if d.estado == 0 %}
-                        <button type="button" id="active_user" title='Bloqueado' class="btn btn-warning btn-sm"><i class="glyphicon glyphicon-off"></i></button>
+                        <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href="administracion/estado_user/{{ d.id_user }}">
+                        <i class='glyphicon glyphicon-off'></i>
+                        </a>
+
                     {% else %}
-                        <button type="button" id="desactive_user" title='Activo' class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-check"></i></button>
+                        <a data-toggle='tooltip' data-placement='top' title='Activo' class='btn btn-danger btn-sm' href="administracion/estado_user/{{ d.id_user }}">
+                        <i class='glyphicon glyphicon-check'></i>
+                        </a>
+
                     {% endif %}
 
                   </td>

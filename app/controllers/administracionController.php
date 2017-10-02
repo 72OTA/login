@@ -62,7 +62,7 @@ class administracionController extends Controllers implements IControllers {
               }
               break;
             case "estado_user":
-                //$u->getPerfiles();
+                $u->update_estado_user();
                 break;
             default:
               echo $this->template->render('error/error_portal',array('menu_op' => $op ));
