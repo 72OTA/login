@@ -601,23 +601,36 @@ class Users extends Models implements IModels {
     /**
      * Obtiene el menu correspondiente al id_user
      *
-     * @param int $id_user : Obligatorio
-     *
      * rol=1 correspondiente a usuario administrador
      *
      * @return false|array con información de los usuarios
      */
-    public function getMenu() {
+    public function getMenuOwnerUser() {
         $usuario = $this->getOwnerUser();
-        $id_user = $usuario['id_user'];
-
         if ( $usuario['rol'] == 1 )
-            $result = $this->db->query_select("select m.id_menu,m.descripcion menu,m.glyphicon,sm.descripcion submenu,sm.url from tblmenu m inner join tblsubmenu sm on m.id_menu=sm.id_menu  where sm.estado=1  order by m.PosI,sm.PosS");
+            $result = $this->getAllMenu();
         else
-            $result = $this->db->query_select("select m.id_menu,m.descripcion menu,m.glyphicon,sm.descripcion submenu,sm.url from (tblperfilesuser pu inner join tblmenu m on pu.id_menu=m.id_menu) inner join tblsubmenu sm on pu.id_menu=sm.id_menu and pu.id_submenu=sm.id_submenu where pu.id_user=$id_user order by m.PosI,sm.PosS");
+            $result = $this->getMenuUser($usuario['id_user']);
         return $result;
     }
 
+    /**
+     * Obtiene Todos los menus y sub menus registrados
+     *
+     * @return false|array con información de los usuarios
+     */
+    public function getAllMenu() {
+        return $this->db->query_select("select m.id_menu,m.descripcion menu,m.glyphicon,sm.id_submenu,sm.descripcion submenu,sm.url from tblmenu m inner join tblsubmenu sm on m.id_menu=sm.id_menu  where sm.estado=1  order by m.PosI,sm.PosS");
+    }
+
+    /**
+     * Obtiene el perfil correspondiente al id_user
+     *
+     * @return false|array con información de los usuarios
+     */
+    public function getMenuUser($id_user) {
+        return $this->db->query_select("select m.id_menu,m.descripcion menu,m.glyphicon,sm.id_submenu,sm.descripcion submenu,sm.url from (tblperfilesuser pu inner join tblmenu m on pu.id_menu=m.id_menu) inner join tblsubmenu sm on pu.id_menu=sm.id_menu and pu.id_submenu=sm.id_submenu where pu.id_user=$id_user order by m.PosI,sm.PosS");
+    }
 
     /**
      * Obtiene los perfiles

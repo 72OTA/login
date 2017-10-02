@@ -25,7 +25,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" >
             <li class="header">MENÚ PRINCIPAL</li>
-                {% if menu_op[0] == 0 %}
+                {% if menu_op == 0 %}
                     <li class="active treeview">
                 {% else %}
                     <li class="treeview">
@@ -44,7 +44,7 @@
                     </ul>
                 </li>
                     {% endif %}
-                {% if menu_op[0] == m.id_menu %}
+                {% if menu_op == m.id_menu %}
                 <li class="active treeview">
                 {% else %}
                 <li class="treeview">

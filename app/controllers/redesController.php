@@ -29,7 +29,7 @@ class redesController extends Controllers implements IControllers {
             'users_logged' => true
         ));
 
-        $op = array(3);
+        $op = '3';
 		    echo $this->template->render('redes/redes', array('menu_op' => $op ));
 
     }

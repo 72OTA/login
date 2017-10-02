@@ -31,7 +31,7 @@ class homeController extends Controllers implements IControllers {
         if (!isset($this->user['id_user']))
             echo $this->template->render('home/home');
         else{
-            $op = array(0);
+            $op = '0';
             echo $this->template->render('portal/portal',array('menu_op' => $op));
         }
 

@@ -29,7 +29,7 @@ class portalController extends Controllers implements IControllers {
             'users_logged' => true
         ));
 
-        $op = array(0);
+        $op = '0';
         switch($this->method){
           case 'perfil_usuario':
             echo $this->template->render('portal/perfil_usuario',array(

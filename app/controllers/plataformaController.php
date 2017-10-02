@@ -29,7 +29,7 @@ class plataformaController extends Controllers implements IControllers {
             'users_logged' => true
         ));
 
-        $op = array(1);
+        $op = '1';
 		    echo $this->template->render('plataforma/plataforma', array('menu_op' => $op ));
 
     }

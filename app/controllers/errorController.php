@@ -29,7 +29,7 @@ class errorController extends Controllers implements IControllers {
         if (!isset($this->user['id_user']))
             echo $this->template->render('error/error');
         else{
-            $op = array(0);
+            $op = '0';
             echo $this->template->render('error/error_portal',array('menu_op' => $op ));
         }
     }

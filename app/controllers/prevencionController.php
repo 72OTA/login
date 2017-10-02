@@ -28,8 +28,8 @@ class prevencionController extends Controllers implements IControllers {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-          
-        $op = array(5);
+
+        $op = '5';
         echo $this->template->render('prevencion/prevencion', array('menu_op' => $op ));
 
     }

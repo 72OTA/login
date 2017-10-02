@@ -33,7 +33,7 @@ class administracionController extends Controllers implements IControllers {
 
         if ($this->user['rol'] == 1){
           $u = new Model\Users($router);
-          $op = array(99);
+          $op = '99';
           switch($this->method){
             case 'perfiles':
               echo $this->template->render('administracion/perfiles', array(
@@ -64,7 +64,10 @@ class administracionController extends Controllers implements IControllers {
             case 'editar_perfil_user':
                 if($this->isset_id and false !== ($data = $u->getUserById($router->getId()))) {
                   echo $this->template->render('administracion/editar_perfil_user', array(
-                    'menu_op' => $op
+                    'menu_op' => $op,
+                    'db_users' => $data[0],
+                    'db_all_menu' => $u->getAllMenu(),
+                    'db_menu_user' => $u->getMenuUser($data[0]['id_user'])
                   ));
                 } else {
                   $this->functions->redir($config['site']['url'] . 'administracion/&error=true');
@@ -78,7 +81,7 @@ class administracionController extends Controllers implements IControllers {
               break;
           }
         }else{
-          $op = array(0);
+          $op = '0';
           echo $this->template->render('error/error_nopermitido',array('menu_op' => $op ));
         }
 

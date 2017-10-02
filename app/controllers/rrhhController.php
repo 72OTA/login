@@ -28,7 +28,7 @@ class rrhhController extends Controllers implements IControllers {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-        $op = array(2);
+        $op = '2';
 		    echo $this->template->render('rrhh/rrhh', array('menu_op' => $op ));
 
     }

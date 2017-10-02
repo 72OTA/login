@@ -29,7 +29,7 @@ class operacionesController extends Controllers implements IControllers {
             'users_logged' => true
         ));
 
-        $op = array(4);
+        $op = '4';
 		    echo $this->template->render('operaciones/operaciones', array('menu_op' => $op ));
 
     }

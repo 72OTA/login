@@ -14,27 +14,29 @@
   <div class="row">
     <div class="col-md-12">
       <div class="box box-primary">
-        <form id="form_select_perfil" name="form_select_perfil" role="form" class="form-horizontal" method="POST" enctype="multipart/form-data">
-          <div class="form-group">
-            <label>
-              <select name='select_perfil' onchange=lista_perfil_primario_check();>
-                <option>--</option>
-                {% for p in db_perfiles if false != db_perfiles %}
-                <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
-                {% endfor %}
-              </select>
-            </label>
-            <label>
-                <input type='button' name='Submit' value='Consultar' id='submit' onclick="lista_perfil_primario_check(); return false"/>
-            </label>
-            <label>
-                <input type='button' name='nuevoperfil' value='Nuevo perfil' id='nuevoperfil' data-toggle="modal" data-target="#modal_new_perfil">
-            </label>
-            <label>
-                <input type='button' name='deleteperfil' value='Elimina perfil' id='deleteperfil'>
-            </label>
-          </div>
-        </form>
+        <div class="box-body">
+          <form id="form_select_perfil" name="form_select_perfil" role="form" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+              <label>
+                <select name='select_perfil' onchange=lista_perfil_primario_check();>
+                  <option>--</option>
+                  {% for p in db_perfiles if false != db_perfiles %}
+                  <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <label>
+                  <input type='button' name='Submit' value='Consultar' id='submit' onclick="lista_perfil_primario_check(); return false"/>
+              </label>
+              <label>
+                  <input type='button' name='nuevoperfil' value='Nuevo perfil' id='nuevoperfil' data-toggle="modal" data-target="#modal_new_perfil">
+              </label>
+              <label>
+                  <input type='button' name='deleteperfil' value='Elimina perfil' id='deleteperfil'>
+              </label>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>

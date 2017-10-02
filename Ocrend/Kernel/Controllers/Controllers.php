@@ -122,7 +122,7 @@ abstract class Controllers {
           $this->template->addGlobal('owner_user', $this->user);
 
 
-          $this->menu_user = (new Model\Users)->getMenu();
+          $this->menu_user = (new Model\Users)->getMenuOwnerUser();
           $this->template->addGlobal('menu_user', $this->menu_user );
         }
 
