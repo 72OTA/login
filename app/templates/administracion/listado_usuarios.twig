@@ -43,6 +43,9 @@
                     <i class='glyphicon glyphicon-edit'></i>
                     </a>
                     <button type="button" id="btn_reset_pass" title='Reset Pass' class="btn btn-info btn-sm" data-toggle="modal" onclick="carga_modal_reset_pass('{{ d.id_user }}')"><i class='glyphicon glyphicon-cog'></i></button>
+                    <a data-toggle='tooltip' data-placement='top' title='Revisar Perfil de accesos' class='btn btn-info btn-sm' href="administracion/editar_perfil_user/{{ d.id_user }}">
+                    <i class='glyphicon glyphicon-list-alt'></i>
+                    </a>
                     {% if d.estado == 0 %}
                         <a data-toggle='tooltip' data-placement='top' title='Bloqueado' class='btn btn-warning btn-sm' href="administracion/estado_user/{{ d.id_user }}">
                         <i class='glyphicon glyphicon-off'></i>

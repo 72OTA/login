@@ -2,70 +2,44 @@
 {% block appBody %}
 <section class="content-header">
     <h4>
-    <i class="fa fa-user"></i> PERFILES DE USUARIOS
+      <i class="fa fa-user"></i> PERFILES DE PLANTILLA
     </h4>
+    <ol class="breadcrumb">
+      <li><a href="portal"><i class="fa fa-home"></i> Inicio </a></li>
+      <li class="active"> PERFILES DE PLANTILLA </li>
+    </ol>
 </section>
 
 <section class="content">
-    <div class="box">
-        <div class="box-header with-border">
-            <div class="box-tools pull-right">
-                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-            </div>
-        </div>
-        <div class="box-body">
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs pull-rigth">
-                    <li class="active"><a href="#tab_1-1" data-toggle="tab">PERFILES PRIMARIOS</a></li>
-                    <li><a href="#tab_2-2" data-toggle="tab">PERFILES USUARIOS</a></li>
-
-                    <li class="pull-left header"></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane active" id="tab_1-1">
-                        <b>Seleccione Perfil</b>
-                        <form id="form_select_perfil" method="post" action="" name="form_select_perfil">
-                            <label>
-                              <select name='select_perfil' onchange=lista_perfil_primario_check();>
-                                <option>--</option>
-                                {% for p in db_perfiles if false != db_perfiles %}
-                                <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
-                                {% endfor %}
-                              </select>
-                            </label>
-                            <label>
-                                <input type='button' name='Submit' value='Consultar' id='submit' onclick="lista_perfil_primario_check(); return false"/>
-                            </label>
-                            <label>
-                                <input type='button' name='nuevoperfil' value='Nuevo perfil' id='nuevoperfil' data-toggle="modal" data-target="#modal_new_perfil">
-                            </label>
-                            <label>
-                                <input type='button' name='deleteperfil' value='Elimina perfil' id='deleteperfil'>
-                            </label>
-                        </form>
-                        <div id="bloque_perfil_primaro"></div>
-                      </div>
-                    <div class="tab-pane" id="tab_2-2">
-                        <b>Seleccione Usuario</b>
-                        <form id="form_usuario_perfil" method="post" action="" name="form_usuario_perfil">
-                            <label>
-                                <select name=select_usuario_perfil onchange="listar_perfil_usuario_check(); return false" >
-                                   <option>--</option>
-                                   {% for u in db_users if false != db_users %}
-                                   <option value='{{ u.id_user }}'>{{ u.name }}</option>
-                                   {% endfor %}
-                                </select>
-                            </label>
-                            <label>
-                               <input type='button' name='Submit' value='Buscar' id='submit' onclick="listar_perfil_usuario_check(); return false"/>
-                           </label>
-                        </form>
-                        <div id="bloque_perfil_usuario"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="box box-primary">
+        <form id="form_select_perfil" name="form_select_perfil" role="form" class="form-horizontal" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <label>
+              <select name='select_perfil' onchange=lista_perfil_primario_check();>
+                <option>--</option>
+                {% for p in db_perfiles if false != db_perfiles %}
+                <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
+                {% endfor %}
+              </select>
+            </label>
+            <label>
+                <input type='button' name='Submit' value='Consultar' id='submit' onclick="lista_perfil_primario_check(); return false"/>
+            </label>
+            <label>
+                <input type='button' name='nuevoperfil' value='Nuevo perfil' id='nuevoperfil' data-toggle="modal" data-target="#modal_new_perfil">
+            </label>
+            <label>
+                <input type='button' name='deleteperfil' value='Elimina perfil' id='deleteperfil'>
+            </label>
+          </div>
+        </form>
+      </div>
     </div>
+  </div>
+  <div class="box-footer">
+  </div><!-- /.box footer -->
 </section>
 {% include 'administracion/nuevo_perfil' %}
 {% endblock %}

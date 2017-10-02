@@ -61,6 +61,15 @@ class administracionController extends Controllers implements IControllers {
                 $this->functions->redir($config['site']['url'] . 'administracion/&error=true');
               }
               break;
+            case 'editar_perfil_user':
+                if($this->isset_id and false !== ($data = $u->getUserById($router->getId()))) {
+                  echo $this->template->render('administracion/editar_perfil_user', array(
+                    'menu_op' => $op
+                  ));
+                } else {
+                  $this->functions->redir($config['site']['url'] . 'administracion/&error=true');
+                }
+                break;
             case "estado_user":
                 $u->update_estado_user();
                 break;
