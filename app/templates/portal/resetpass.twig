@@ -7,7 +7,7 @@
       </div>
       <div class="modal-body">
         <form id="resetpass_form" class="form-signin" method="POST">
-            <input type="hidden" name="id_user" class="form-control" value="{{ owner_user[0] }}">
+            <input type="hidden" name="id_user" class="form-control" value="{{ owner_user['id_user'] }}">
             <input type="password" name="pass" class="form-control" placeholder="Ingrese Password nueva" autofocus>
             <input type="password" name="pass_repeat" class="form-control" placeholder="Re-ingrese Password nueva">
         </form>

@@ -28,9 +28,18 @@ class portalController extends Controllers implements IControllers {
         parent::__construct($router,array(
             'users_logged' => true
         ));
-        
+
         $op = array(0);
-        echo $this->template->render('portal/portal',array('menu_op' => $op));
+        switch($this->method){
+          case 'perfil_usuario':
+            echo $this->template->render('portal/perfil_usuario',array(
+              'menu_op' => $op));
+            break;
+          default:
+            echo $this->template->render('portal/portal',array(
+              'menu_op' => $op));
+            break;
+          }
     }
 
 }
