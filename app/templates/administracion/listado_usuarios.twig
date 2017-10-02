@@ -79,7 +79,24 @@
     <script src="views/app/js/administracion/administracion.js"></script>
 
     <script>
-      $("#dataTables1").dataTable();
+     $("#dataTables1").dataTable({
++                "language": {
++                    "search": "Buscar:",
++                    "zeroRecords": "No hay datos para mostrar",
++                    "info":"Mostrando _END_ usuarios, de un total de _TOTAL_ ",
++                    "loadingRecords": "Cargando...",
++                    "processing":"Procesando...",
++                    "infoEmpty":"No hay entradas para mostrar",
++                    "lengthMenu": "Mostrar _MENU_ columnas",
++                    "paginate":{
++                      "first":"Primera",
++                      "last":"Ultima",
++                      "next":"Siguiente",
++                      "previous":"Anterior",
++                    }
++                              },
++                "autoWidth": false
++            });
     </script>
 
 {% endblock %}
