@@ -44,7 +44,7 @@ function msg_box_alert(opcion,titulo,message,accionsuccess,accion_redirect){
 /**
  * Ajax execute_accion
  * @param method = metodo de envio de datos
- * @param api_rest = corresponde a funcion agregada en api/http/@method  (no se si realmente de se llama asi)
+ * @param api_rest = corresponde a funcion agregada en api/http/method  (no se si realmente de se llama asi)
  * @param fomulario = formulario de donde se extrae la informacion a enviar
  * @param accionsuccess = Accion a Ejecutar si json.success = 1   (reload|redirect) => opcional
  * @param accion_redirect = en caso de Ejecutar redirect (agregar controlador a redirigir) => opcional

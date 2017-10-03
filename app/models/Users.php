@@ -374,6 +374,40 @@ class Users extends Models implements IModels {
         # Redireccionar a la página principal del controlador
         $this->functions->redir($config['site']['url'] . 'administracion/usuario');
     }
+
+    /**
+      * Actualiza estado de usuario
+      * y luego redirecciona a administracion/usuarios
+      *
+      * @return void
+    */
+    final public function update_peril_usuario() {
+      try {
+        global $http;
+
+        $id_user = $http->request->get('id_user');
+
+        $this->db->query("Delete from tblperfilesuser
+        WHERE id_user='$id_user';");
+
+        $p = $this->getAllMenu();
+        foreach ($p as $value => $data) {
+
+          $a = $http->request->get('check-'.$data['id_menu'].'-'.$data['id_submenu']);
+          if (True == $a){
+            $id_menu = $data['id_menu'];
+            $id_submenu = $data['id_submenu'];
+            $this->db->query("Insert tblperfilesuser(id_user,id_menu,id_submenu) value($id_user,$id_menu,$id_submenu);");
+          }
+
+        }
+
+        return array('success' => 1, 'message' => 'Registrado con éxito.');
+      } catch (ModelsException $e) {
+          return array('success' => 0, 'message' => $e->getMessage());
+      }
+    }
+
     /**
      * Realiza la acción de registro dentro del sistema
      *

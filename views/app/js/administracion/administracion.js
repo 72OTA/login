@@ -18,6 +18,9 @@ function execute_accion_administracion(method,api_rest,formulario,accion,accion_
     case "update_usuario":
       title='Actualiza Usuario';
       break;
+    case "update_peril_usuario":
+      title='Actualiza Perfil Usuario';
+      break;
   }
   $.ajax({
     type : method,
@@ -82,6 +85,10 @@ $('#reset_pass_user_form').keypress(function(e) {
 $('#btn_reset_pass_user').click(function(e) {
   e.defaultPrevented;
   execute_accion_administracion("POST","resetpass",'reset_pass_user_form','reload')
+});
+$('#update_perfil_user').click(function(e) {
+  e.defaultPrevented;
+  execute_accion_administracion("POST","update_peril_usuario",'form_user_perfil','redirect','administracion/usuario')
 });
 
 //funciones varias

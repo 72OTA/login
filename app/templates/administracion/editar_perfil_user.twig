@@ -21,6 +21,7 @@
           <div class="box-body col-sm-4"></div>
           <div class="box-body col-sm-4">
             <form id="form_user_perfil" name="form_user_perfil" role="form" method="POST" enctype="multipart/form-data">
+              <input type='hidden' name='id_user' id='id_user' value='{{ db_users.id_user }}'>
               {% set id = 0 %}
               {% set cont = 0 %}
               <ul  >
@@ -52,11 +53,11 @@
                                 {% for mu in db_menu_user if false != db_menu_user %}
                                   {% if m.id_menu == mu.id_menu and m.id_submenu == mu.id_submenu %}
                                     {% set flat = 1 %}
-                                    <input name="{{ '%s%s%s%s%s'|format('check','-',m.id_menu,'-',m.id_submenu) }}" type="checkbox" id="{{ '%s%s%s%s%s'|format('check','-',m.id_menu,'-',m.id_submenu) }}" checked='checked' >
+                                    <input name="{{ '%s%s%s%s%s'|format('check','-',m.id_menu,'-',m.id_submenu) }}" type="checkbox" id="{{ '%s%s%s%s%s'|format('check','-',m.id_menu,'-',m.id_submenu) }}" checked='checked'>
                                   {% endif %}
                                 {% endfor %}
                                 {% if flat == 0 %}
-                                  <input name="" type="checkbox" id="{{ '%s%s%s%s%s'|format('check','-',m.id_menu,'-',m.id_submenu) }}" >
+                                  <input name="{{ '%s%s%s%s%s'|format('check','-',m.id_menu,'-',m.id_submenu) }}" type="checkbox" id="{{ '%s%s%s%s%s'|format('check','-',m.id_menu,'-',m.id_submenu) }}">
                                 {% endif %}
                                 {{ m.submenu|raw|convert_encoding('UTF-8', 'ISO-8859-1')|upper }}
                               </label>
@@ -67,6 +68,9 @@
                   {% set cont =  cont + 1 %}
               {% endfor %}
               </ul>
+              <div class="form-group">
+                <button type="button" id="update_perfil_user" class="btn btn-default">Grabar</button>
+              </div>
             </form>
           </div>
         </div>
