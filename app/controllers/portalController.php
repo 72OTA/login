@@ -28,6 +28,7 @@ class portalController extends Controllers implements IControllers {
         parent::__construct($router,array(
             'users_logged' => true
         ));
+        global $config;
 
         $op = '0';
         switch($this->method){
@@ -36,8 +37,7 @@ class portalController extends Controllers implements IControllers {
               'menu_op' => $op));
             break;
           default:
-            echo $this->template->render('portal/portal',array(
-              'menu_op' => $op));
+              echo $this->template->render('portal/portal',array('menu_op' => $op));
             break;
           }
     }

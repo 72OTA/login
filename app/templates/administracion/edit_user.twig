@@ -17,14 +17,15 @@
         <div class="box box-primary">
           <form id="update_user_form"  action="" method="POST">
             <input type='hidden' name='id_user' value='{{ db_users.id_user }}' />
-            <div class="box-body col-sm-4"></div>
+            <div class="box-body col-sm-2"></div>
             <div class="box-body col-sm-4">
               <div class="form-group">
                 <input class="form-control" name="name"        id="name"        type="text"     placeholder="Nombre Completo" value='{{ db_users.name|raw|upper }}'/>
                 <input class="form-control" name="email"       id="email"       type="email"    placeholder="E-Mail" value='{{ db_users.email }}' readonly/>
+                <input class="form-control" name="cargo"       id="cargo"       type="text"    placeholder="cargo" value='{{ db_users.cargo }}'/>
                 <input class="form-control" name="fono"       id="fono"       type="text"    placeholder="Fono" value='{{ db_users.fono }}'/>
               </div>
-              <div class="form-group">
+              <div class="form-group">Perfil Asignado
                 <select name='perfil' id='perfil' class='form-control'>
                   <option>--</option>
                   {% for p in db_perfiles if false != db_perfiles %}
@@ -34,11 +35,28 @@
                       <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
                     {% endif %}
                   {% endfor %}
-                  {% if 'Otro' == db_users.perfil  %}
-                    <option value='Otro' selected='selected'>Otro</option>
+                  {% if 'DEFINIDO' == db_users.perfil  %}
+                    <option value='DEFINIDO' selected='selected'>DEFINIDO</option>
                   {% else %}
-                    <option value='Otro'>Otro</option>
+                    <option value='DEFINIDO'>DEFINIDO</option>
                   {% endif %}
+                </select>
+              </div>
+              <div class="form-group">Pagina de Inicio
+                <select name='pagina_inicio' id='pagina_inicio' class='form-control'>
+                  {% if 'portal' == db_users.pagina_inicio  %}
+                    <option value='portal' selected='selected'>HOME</option>
+                  {% else %}
+                    <option value='portal'>HOME</option>
+                  {% endif %}
+                  {% for m in db_menu if false != db_menu %}
+                    {% if m.url == db_users.pagina_inicio  %}
+                      <option value='{{ m.url }}' selected='selected'>{{ m.url|upper }}</option>
+                    {% else %}
+                      <option value='{{ m.url }}'>{{ m.url|upper }}</option>
+                    {% endif %}
+
+                  {% endfor %}
                 </select>
               </div>
               <div class="checkbox">
@@ -54,6 +72,20 @@
               </div>
               <div class="form-group">
                 <button type="button" id="update_user" class="btn btn-default">Grabar</button>
+              </div>
+            </div>
+            <div class="box-body col-sm-4">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Foto</label>
+                <div class="col-sm-5">
+                  <input type="file" name="foto" id="foto">
+                  <br/>
+                  {% if db_users.foto == 1 %}
+                    <img style="border:1px solid #eaeaea;border-radius:5px;" src="views/app/images/avatares/{{ '%s%s%s'|format(db_users.id_user,'.',db_users.ext_foto) }}" width="128">
+                  {% else %}
+                    <img style="border:1px solid #eaeaea;border-radius:5px;" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" width="128">
+                  {% endif %}
+                </div>
               </div>
             </div>
           </form>

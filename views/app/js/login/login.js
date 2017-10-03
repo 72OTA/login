@@ -15,7 +15,7 @@ function login(){
           content: json.message,
         });
         setTimeout(function(){
-            location.href = "portal/";
+            location.reload();
         },1000);
       }else{
         $.dialog({

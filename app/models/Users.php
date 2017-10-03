@@ -275,13 +275,15 @@ class Users extends Models implements IModels {
             $name = $http->request->get('name');
             $email = $http->request->get('email');
             $fono = $http->request->get('fono');
+            $cargo = $http->request->get('cargo');
             $pass = $http->request->get('pass');
             $pass_repeat = $http->request->get('pass_repeat');
             $perfil = $http->request->get('perfil');
+            $pagina_inicio = $http->request->get('pagina_inicio');
             $rol = $http->request->get('rol');
 
             # Verificar que no están vacíos
-            if ($this->functions->e($name, $email, $pass, $pass_repeat)) {
+            if ($this->functions->e($name, $email, $cargo, $pass, $pass_repeat)) {
                 throw new ModelsException('Todos los datos son necesarios');
             }
             elseif ($perfil == '--'){
@@ -301,7 +303,9 @@ class Users extends Models implements IModels {
                 'name' => $name,
                 'email' => $email,
                 'fono' => $fono,
+                'cargo' => $cargo,
                 'perfil' => $perfil,
+                'pagina_inicio' => $pagina_inicio,
                 'rol' => $rol,
                 'pass' => Strings::hash($pass)
             ));
@@ -325,12 +329,25 @@ class Users extends Models implements IModels {
             $id_user = $http->request->get('id_user');
             $name = $http->request->get('name');
             $email = $http->request->get('email');
+            $cargo = $http->request->get('cargo');
             $fono = $http->request->get('fono');
             $perfil = $http->request->get('perfil');
+            $pagina_inicio = $http->request->get('pagina_inicio');
             $rol = $http->request->get('rol');
 
+            $foto=0;
+            $ext_foto='';
+
+            $file = $http->files->get('foto');
+            $foto = 0;
+            $ext_foto = "";
+            if (false == is_null($file)){
+              $foto = 1;
+              $ext_foto = $file->getClientOriginalExtension();
+              $file->move('views/app/images/avatares/'.$id_user.$ext_foto, $file->getClientOriginalName());
+            }
             # Verificar que no están vacíos
-            if ($this->functions->e($name, $email)) {
+            if ($this->functions->e($name, $cargo, $email)) {
                 throw new ModelsException('Todos los datos son necesarios');
             }
             elseif ($perfil == '--'){
@@ -349,10 +366,14 @@ class Users extends Models implements IModels {
               'name' => $name,
               'email' => $email,
               'fono' => $fono,
+              'cargo' => $cargo,
               'perfil' => $perfil,
-              'rol' => $rol
+              'pagina_inicio' => $pagina_inicio,
+              'rol' => $rol,
+              'foto' => $foto,
+              'ext_foto' => $ext_foto
             ),"id_user='$id_user'",'LIMIT 1');
-
+            //
             return array('success' => 1, 'message' => 'Registrado con éxito.');
         } catch (ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
@@ -401,6 +422,10 @@ class Users extends Models implements IModels {
           }
 
         }
+
+        $this->db->update('users',array(
+          'perfil' => 'DEFINIDO'
+        ),"id_user='$id_user'",'LIMIT 1');
 
         return array('success' => 1, 'message' => 'Registrado con éxito.');
       } catch (ModelsException $e) {
@@ -454,7 +479,7 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Todos los datos son necesarios');
             }elseif ($perfil == '--'){
                 throw new ModelsException('Debe seleccionar un perfil valido');
-            }elseif ($perfil == 'Otro'){
+            }elseif ($perfil == 'DEFINIDO'){
                   throw new ModelsException('Perfil por defecto no puede ser eliminado');
             }
             # Elimina perfil

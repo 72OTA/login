@@ -21,19 +21,32 @@
               <div class="form-group">
                 <input class="form-control" name="name"        id="name"        type="text"     placeholder="Nombre Completo" required/>
                 <input class="form-control" name="email"       id="email"       type="email"    placeholder="E-Mail" required/>
+                <input class="form-control" name="cargo"       id="cargo"       type="text"    placeholder="Cargo" required/>
                 <input class="form-control" name="fono"       id="fono"       type="text"    placeholder="Fono" required/>
               </div>
               <div class="form-group">
                 <input class="form-control" name="pass"        id="pass"        type="password" placeholder="Password" required/>
                 <input class="form-control" name="pass_repeat" id="pass_repeat" type="password" placeholder="Repita Password" required/>
               </div>
-              <div class="form-group">
+              <div class="form-group">Perfil Asignado
                 <select name='perfil' id='perfil' class='form-control'>
                 <option selected='selected'>--</option>
                 {% for p in db_perfiles if false != db_perfiles %}
                 <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
                 {% endfor %}
-                <option value='Otro'>Otro</option>
+                <option value='DEFINIDO'>DEFINIDO</option>
+                </select>
+              </div>
+              <div class="form-group">Pagina de Inicio
+                <select name='pagina_inicio' id='pagina_inicio' class='form-control'>
+                  <option value='portal'>HOME</option>
+                  {% for m in db_menu if false != db_menu %}
+                    {% if m.url == db_users.pagin_inicio  %}
+                      <option value='{{ m.url }}' selected='selected'>{{ m.url }}</option>
+                    {% else %}
+                      <option value='{{ m.url }}'>{{ m.url }}</option>
+                    {% endif %}
+                  {% endfor %}
                 </select>
               </div>
               <div class="checkbox">

@@ -7,14 +7,19 @@
 
 # Modulos Listos
 
+#Modulos de Generales template
 * Menu dinamico por perfil de usuario
-* Registro de usuarios -> sólo usuario con perfil asignado
-* Recuperación de clave mediante correo
 * Modificación de clave usuario logueado
 * Visor de Perfil usuario logueado
-* CRUD de maestro de usuarios con las siguiente opcion (editar,cambiar password,activar o desactivar)
+* redirección pagina de inicio asignada a usuario
 
+# Modulos administración de usuario y perfiles
+* Registro de usuarios -> sólo para usuarios con rol admin
+* Recuperación de clave mediante correo
+* Modificación peril definido a usuario
+* Modificación Datos de usuario (pendiente subir avatar)
+* Modificación de password de usuario especifico
+* Activar o desactivar usuario
 
 # Adicionales
-
 * Alertas mediante jquery-confirm!

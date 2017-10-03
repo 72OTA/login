@@ -48,14 +48,17 @@ class administracionController extends Controllers implements IControllers {
                 break;
             case 'registro_user': echo $this->template->render('administracion/usuarios', array(
               'menu_op' => $op,
-              'db_perfiles' => $u->getPerfiles() ));
+              'db_perfiles' => $u->getPerfiles(),
+              'db_menu' => $u->getAllMenu()
+             ));
               break;
             case 'editar_user':
               if($this->isset_id and false !== ($data = $u->getUserById($router->getId()))) {
                 echo $this->template->render('administracion/edit_user', array(
                   'menu_op' => $op,
                   'db_users' => $data[0],
-                  'db_perfiles' => $u->getPerfiles()
+                  'db_perfiles' => $u->getPerfiles(),
+                  'db_menu' => $u->getAllMenu()
                 ));
               } else {
                 $this->functions->redir($config['site']['url'] . 'administracion/&error=true');

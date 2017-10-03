@@ -26,13 +26,13 @@ class homeController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router);
-
+        global $config;
 
         if (!isset($this->user['id_user']))
             echo $this->template->render('home/home');
         else{
-            $op = '0';
-            echo $this->template->render('portal/portal',array('menu_op' => $op));
+            //redirecciona a pagina de inicio de usuario
+            $this->functions->redir($config['site']['url'] . $this->user['pagina_inicio']);
         }
 
     }
