@@ -16,7 +16,7 @@
       <div class="col-md-12">
         <div class="box box-primary">
           <form id="update_user_form"  action="" method="POST">
-            <input type='hidden' name='id_user' value='{{ db_users.id_user }}' />
+            <input type='hidden' name='id_user' id='id_user' value='{{ db_users.id_user }}' />
             <div class="box-body col-sm-2"></div>
             <div class="box-body col-sm-4">
               <div class="form-group">
@@ -62,9 +62,9 @@
               <div class="checkbox">
                 <label>
                   {% if 0 == db_users.rol  %}
-                    <input name="rol" type="checkbox" id="admin" />
+                    <input name="rol" type="checkbox" id="rol" />
                   {% else %}
-                    <input name="rol" type="checkbox" id="admin" checked />
+                    <input name="rol" type="checkbox" id="rol" checked />
                   {% endif %}
                   Usuario Administrador?
 
@@ -81,7 +81,7 @@
                   <input type="file" name="foto" id="foto">
                   <br/>
                   {% if db_users.foto == 1 %}
-                    <img style="border:1px solid #eaeaea;border-radius:5px;" src="views/app/images/avatares/{{ '%s%s%s'|format(db_users.id_user,'.',db_users.ext_foto) }}" width="128">
+                    <img style="border:1px solid #eaeaea;border-radius:5px;" src="views/app/images/avatares/{{ '%s%s%s'|format(db_users.id_user,'/',db_users.name_foto) }}" width="128">
                   {% else %}
                     <img style="border:1px solid #eaeaea;border-radius:5px;" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" width="128">
                   {% endif %}

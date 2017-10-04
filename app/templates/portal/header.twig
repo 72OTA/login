@@ -72,14 +72,23 @@
                 <!-- User Account: style can be found in dropdown.less -->
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      {% if owner_user['foto'] == 1 %}
+                        <img src="views/app/images/avatares/{{ owner_user['name_foto'] }}" class="user-image" alt="User Image">
+                      {% else %}
                         <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="user-image" alt="User Image">
+                      {% endif %}
+
                         <span class="hidden-xs">{{ owner_user['name'] }}</span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="img-circle" alt="User Image">
 
+                            {% if owner_user['foto'] == 1 %}
+                              <img src="views/app/images/avatares/{{ owner_user['name_foto'] }}" class="img-circle" alt="User Image">
+                            {% else %}
+                              <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="img-circle" alt="User Image">
+                            {% endif %}
                             <p>
                                 {{ owner_user['email'] }}
                                 <small></small>

@@ -30,7 +30,7 @@ class administracionController extends Controllers implements IControllers {
         ));
         global $config;
 
-
+        // rol = 1 => admin
         if ($this->user['rol'] == 1){
           $u = new Model\Users($router);
           $op = '99';

@@ -4,7 +4,12 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="img-circle" alt="User Image">
+          {% if owner_user['foto'] == 1 %}
+            <img src="views/app/images/avatares/{{ owner_user['name_foto'] }}" class="img-circle" alt="User Image">
+          {% else %}
+            <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" class="img-circle" alt="User Image">
+          {% endif %}
+
         </div>
         <div class="pull-left info">
           <p>{{ owner_user['name'] }}</p>

@@ -24,7 +24,7 @@
               <input type='hidden' name='id_user' id='id_user' value='{{ db_users.id_user }}'>
               {% set id = 0 %}
               {% set cont = 0 %}
-              <ul  >
+              <ul>
               {% for m in db_all_menu if false != db_all_menu %}
 
               {% if id != m.id_menu %}
@@ -32,20 +32,13 @@
                   </ul>
               </li>
                   {% endif %}
-
               <li>
-
-
-                      <i class='fa {{ m.glyphicon }}'></i>
+                  <i class='fa {{ m.glyphicon }}'></i>
                       <span>
-
                       {{ m.menu|raw|convert_encoding('UTF-8', 'ISO-8859-1')|upper }}
-
                       </span>
-
                   <ul>
               {% endif %}
-
                           <li>
                             <div class="checkbox">
                               <label>
@@ -69,7 +62,7 @@
               {% endfor %}
               </ul>
               <div class="form-group">
-                <button type="button" id="update_perfil_user" class="btn btn-default">Grabar</button>
+                <button type="button" id="update_perfil_user">Grabar</button>
               </div>
             </form>
           </div>

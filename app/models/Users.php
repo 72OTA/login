@@ -19,6 +19,7 @@ use Ocrend\Kernel\Models\Traits\DBModel;
 use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Helpers\Strings;
 use Ocrend\Kernel\Helpers\Emails;
+use Ocrend\Kernel\Helpers\Files;
 
 /**
  * Controla todos los aspectos de un usuario dentro del sistema.
@@ -290,7 +291,7 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Debe seleccionar un perfil');
             }
 
-            if (True == $rol) $rol =1; else $rol=0;
+            if (true == $rol) $rol =1; else $rol=0;
 
             # Verificar email
             $this->checkEmail($email);
@@ -309,6 +310,18 @@ class Users extends Models implements IModels {
                 'rol' => $rol,
                 'pass' => Strings::hash($pass)
             ));
+
+            // Asigna menu a usuario
+            if ('DEFINIDO' != $perfil ){
+
+              $id_user=$this->db->lastInsertId();
+
+              $this->db->query("Delete from tblperfilesuser
+              WHERE id_user='$id_user';");
+
+              $this->db->query("Insert Into tblperfilesuser(id_user,id_menu,id_submenu)
+              select '$id_user',id_menu,id_submenu from tblperfiles where nombre='$perfil';");
+            }
 
             return array('success' => 1, 'message' => 'Registrado con éxito.');
         } catch (ModelsException $e) {
@@ -335,17 +348,6 @@ class Users extends Models implements IModels {
             $pagina_inicio = $http->request->get('pagina_inicio');
             $rol = $http->request->get('rol');
 
-            $foto=0;
-            $ext_foto='';
-
-            $file = $http->files->get('foto');
-            $foto = 0;
-            $ext_foto = "";
-            if (false == is_null($file)){
-              $foto = 1;
-              $ext_foto = $file->getClientOriginalExtension();
-              $file->move('views/app/images/avatares/'.$id_user.$ext_foto, $file->getClientOriginalName());
-            }
             # Verificar que no están vacíos
             if ($this->functions->e($name, $cargo, $email)) {
                 throw new ModelsException('Todos los datos son necesarios');
@@ -354,11 +356,20 @@ class Users extends Models implements IModels {
                 throw new ModelsException('Debe seleccionar un perfil');
             }
 
-            if (True == $rol) $rol =1; else $rol=0;
-
             # Verificar email
             if (!Strings::is_email($email)) {
                 throw new ModelsException('El email no tiene un formato válido.');
+            }
+
+            $file = $http->files->get('foto');
+            $foto = 0;
+            $img_name="";
+            if (null !== $file && true == Files::is_image($file->getClientOriginalName()) ){
+              $foto = 1;
+              $ext_foto = $file->getClientOriginalExtension();
+              $img_name = $id_user.'.'.$ext_foto;
+
+              $file->move(API_INTERFACE . 'views/app/images/avatares/', $img_name);
             }
 
             # Actualiza usuario
@@ -369,11 +380,25 @@ class Users extends Models implements IModels {
               'cargo' => $cargo,
               'perfil' => $perfil,
               'pagina_inicio' => $pagina_inicio,
-              'rol' => $rol,
-              'foto' => $foto,
-              'ext_foto' => $ext_foto
+              'rol' => $rol
             ),"id_user='$id_user'",'LIMIT 1');
+            // Carga nueva imagen de usuario
+            if ($img_name != "" ){
+              $this->db->update('users',array(
+                'foto' => $foto,
+                'name_foto' => $img_name
+              ),"id_user='$id_user'",'LIMIT 1');
+            }
+            // Asigna menu a usuario
+            if ('DEFINIDO' != $perfil ){
+              $this->db->query("Delete from tblperfilesuser
+              WHERE id_user='$id_user';");
+
+              $this->db->query("Insert Into tblperfilesuser(id_user,id_menu,id_submenu)
+              select '$id_user',id_menu,id_submenu from tblperfiles where nombre='$perfil';");
+            }
             //
+
             return array('success' => 1, 'message' => 'Registrado con éxito.');
         } catch (ModelsException $e) {
             return array('success' => 0, 'message' => $e->getMessage());
@@ -415,7 +440,7 @@ class Users extends Models implements IModels {
         foreach ($p as $value => $data) {
 
           $a = $http->request->get('check-'.$data['id_menu'].'-'.$data['id_submenu']);
-          if (True == $a){
+          if (true == $a){
             $id_menu = $data['id_menu'];
             $id_submenu = $data['id_submenu'];
             $this->db->query("Insert tblperfilesuser(id_user,id_menu,id_submenu) value($id_user,$id_menu,$id_submenu);");
@@ -428,6 +453,46 @@ class Users extends Models implements IModels {
         ),"id_user='$id_user'",'LIMIT 1');
 
         return array('success' => 1, 'message' => 'Registrado con éxito.');
+      } catch (ModelsException $e) {
+          return array('success' => 0, 'message' => $e->getMessage());
+      }
+    }
+
+    /**
+      * Actualiza estado de usuario
+      * y luego redirecciona a administracion/usuarios
+      *
+      * @return void
+    */
+    final public function update_perfil() {
+      try {
+        global $http;
+
+        $perfil = $http->request->get('perfil');
+
+        $this->db->query("Delete from tblperfiles
+        WHERE nombre='$perfil';");
+
+        $p = $this->getAllMenu();
+        foreach ($p as $value => $data) {
+          $a = $http->request->get('check-'.$data['id_menu'].'-'.$data['id_submenu']);
+
+          if (true == $a){
+            $id_menu = $data['id_menu'];
+            $id_submenu = $data['id_submenu'];
+            $this->db->query("Insert tblperfiles(nombre,id_menu,id_submenu) value('$perfil',$id_menu,$id_submenu);");
+          }
+        }
+
+        //regulariza todos los usuario con actalización de opciones
+        $this->db->query("delete p from (users u inner join tblperfilesuser p on u.id_user=p.id_user )
+        where u.perfil='$perfil';");
+
+        $this->db->query("Insert Into tblperfilesuser(id_user,id_menu,id_submenu)
+        select id_user,id_menu,id_submenu from (tblperfiles p inner join users u on p.nombre=u.perfil ) where p.nombre='$perfil';");
+        //
+
+        return array('success' => 1, 'message' => 'Registrado con éxito.' );
       } catch (ModelsException $e) {
           return array('success' => 0, 'message' => $e->getMessage());
       }
@@ -452,8 +517,8 @@ class Users extends Models implements IModels {
             # Registrar perfil
             $this->db->insert('tblperfiles', array(
                 'nombre' => $new_perfil,
-                'idopcion' => 0,
-                'idsubmenu' => 0
+                'id_menu' => 0,
+                'id_submenu' => 0
             ));
 
             return array('success' => 1, 'message' => 'Registrado con éxito.');
@@ -485,6 +550,11 @@ class Users extends Models implements IModels {
             # Elimina perfil
             $this->db->query("Delete from tblperfiles
             WHERE nombre='$perfil' LIMIT 1;");
+
+            //actualiza como DEFINIDO a todos los usuarios para que no pierdan opciones
+            $this->db->update('users',array(
+              'perfil' => 'DEFINIDO'
+            ),"perfil='$perfil'");
 
             return array('success' => 1, 'message' => 'Eliminación éxitosa.');
         } catch (ModelsException $e) {
@@ -709,7 +779,74 @@ class Users extends Models implements IModels {
             return $perfiles[0];
         }
     }
+    /**
+     * Obtiene las opciones de un perfil especifico
+     *
+     * @return array con información de los perfiles
+     */
+    public function mostar_datos_perfil() : array {
+      global $http;
 
+      # Obtener los datos $_POST
+      $perfil = $http->request->get('select_perfil');
+
+      $p = $this->getAllMenu();
+
+      if(false === $p) {
+        return array('success' => 0, 'message' => 'No se encontraron opciones para el perfil');
+      }else{
+        $html = "<form id='form_opciones_perfil' name='form_opciones_perfil' role='form' method='POST' enctype='multipart/form-data'>";
+        $html .= "<input type='hidden' name='perfil' id='peril' value='$perfil'>
+        <ul>";
+        $id = 0; $cont = 0;
+        $opciones = $this->db->select('id_menu,id_submenu','tblperfiles',"nombre='$perfil'");
+
+        foreach ($p as $value => $data) {
+          if ( $id != $data['id_menu'] ){
+              if ( $cont >= 1 ){
+              $html .= "</ul>
+          </li>";
+              }
+
+          $html .= "<li>
+                  <i class='fa ".$data['glyphicon']."'></i>
+                  <span>
+                    ".utf8_encode($data['menu'])."
+                  </span>
+              <ul>";
+          }
+          $html .= "<li>
+                      <div class='checkbox'>
+                        <label>";
+                          $flat = 0;
+                          if(false !== $opciones) {
+                            foreach ($opciones as $value2 => $rs) {
+                              if ( $data['id_menu'] == $rs['id_menu'] && $data['id_submenu'] == $rs['id_submenu']){
+                                   $flat = 1;
+                                   $html .= "<input name='check-".$data['id_menu']."-".$data['id_submenu']."' type='checkbox' id='check-".$data['id_menu']."-".$data['id_submenu']."' checked='checked'>";
+                              }
+                            }
+                          }
+                          if ($flat == 0){
+                              $html .= "<input name='check-".$data['id_menu']."-".$data['id_submenu']."' type='checkbox' id='check-".$data['id_menu']."-".$data['id_submenu']."'>";
+                          }
+                          $html .= $data['submenu']."
+                        </label>
+                      </div>
+                    </li>";
+          $id=$data['id_menu'];
+          $cont =  $cont + 1;
+        }
+        $html .= "</ul>
+        <div class='form-group'>
+          <label>
+          <button type='button' id='update_perfil' onclick=\"execute_accion_administracion('POST','update_perfil','form_opciones_perfil','reload'); return false\" >Grabar</button>
+          </label>
+        </div>
+        </form>";
+        return array('success' => 1, 'message' => $html);
+      }
+    }
 
     /**
      * Obtiene datos del usuario conectado actualmente

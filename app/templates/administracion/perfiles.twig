@@ -18,7 +18,7 @@
           <form id="form_select_perfil" name="form_select_perfil" role="form" method="POST" enctype="multipart/form-data">
             <div class="form-group">
               <label>
-                <select name='select_perfil' onchange=lista_perfil_primario_check();>
+                <select name='select_perfil' onchange=mostar_datos_perfil();>
                   <option>--</option>
                   {% for p in db_perfiles if false != db_perfiles %}
                   <option value='{{ p.nombre }}'>{{ p.nombre }}</option>
@@ -26,7 +26,7 @@
                 </select>
               </label>
               <label>
-                  <input type='button' name='Submit' value='Consultar' id='submit' onclick="lista_perfil_primario_check(); return false"/>
+                  <input type='button' name='Submit' value='Consultar' id='submit' onclick="mostar_datos_perfil(); return false"/>
               </label>
               <label>
                   <input type='button' name='nuevoperfil' value='Nuevo perfil' id='nuevoperfil' data-toggle="modal" data-target="#modal_new_perfil">
@@ -36,11 +36,14 @@
               </label>
             </div>
           </form>
+          <div class="box-body col-sm-4"></div>
+          <div class="box-body col-sm-4">
+            <div id="mostar_datos_perfil">
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="box-footer">
   </div><!-- /.box footer -->
 </section>
 {% include 'administracion/nuevo_perfil' %}

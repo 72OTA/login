@@ -115,3 +115,23 @@ $app->post('/update_peril_usuario', function() use($app) {
 
     return $app->json($u->update_peril_usuario());
 });
+/**
+    * Actualiza perfil de usuario modificado directamente
+    *
+    * @return json
+*/
+$app->post('/mostar_datos_perfil', function() use($app) {
+    $u = new Model\Users;
+
+    return $app->json($u->mostar_datos_perfil());
+});
+/**
+    * Actualiza perfil de usuario modificado directamente
+    *
+    * @return json
+*/
+$app->post('/update_perfil', function() use($app) {
+    $u = new Model\Users;
+
+    return $app->json($u->update_perfil());
+});
