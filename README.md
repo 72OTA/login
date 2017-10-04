@@ -7,7 +7,7 @@
 
 # Modulos Listos
 
-#Modulos de Generales template
+# Modulos Generales para funcionamiento del template 
 * Menu dinamico por perfil de usuario
 * Modificación de clave usuario logueado
 * Visor de Perfil usuario logueado
