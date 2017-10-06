@@ -38,13 +38,14 @@ class administracionController extends Controllers implements IControllers {
             case 'perfiles':
               echo $this->template->render('administracion/perfiles', array(
                 'menu_op' => $op,
-                'db_perfiles' => $u->getPerfiles(),
-                'db_users' => $u->getUsers('*','rol=0 and estado=1') ));
+                'db_perfiles' => $u->getPerfiles()
+               ));
                 break;
             case 'usuario':
               echo $this->template->render('administracion/listado_usuarios', array(
                 'menu_op' => $op,
-                'db_users' => $u->getUsers('*','1=1') ));
+                'db_users' => $u->getUsers('*','1=1')
+              ));
                 break;
             case 'registro_user': echo $this->template->render('administracion/usuarios', array(
               'menu_op' => $op,
@@ -80,7 +81,11 @@ class administracionController extends Controllers implements IControllers {
                 $u->update_estado_user();
                 break;
             default:
-              echo $this->template->render('error/error_portal',array('menu_op' => $op ));
+              echo $this->template->render('administracion/administracion',array(
+                'menu_op' => $op,
+                'q_perfiles' => count($u->getPerfiles()),
+                'q_users' => count($u->getUsers('*','1=1')) 
+               ));
               break;
           }
         }else{
