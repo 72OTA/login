@@ -5,7 +5,7 @@
         <i class="fa fa-user"></i> EDITAR USUARIO
       </h4>
       <ol class="breadcrumb">
-        <li><a href="portal"><i class="fa fa-home"></i> Inicio </a></li>
+        <li><a href="portal"><i class="fa fa-home"></i> Home </a></li>
         <li><a href="administracion/usuario"> Usuarios </a></li>
         <li class="active"> editar </li>
       </ol>
@@ -81,7 +81,7 @@
                   <input type="file" name="foto" id="foto">
                   <br/>
                   {% if db_users.foto == 1 %}
-                    <img style="border:1px solid #eaeaea;border-radius:5px;" src="views/app/images/avatares/{{ '%s%s%s'|format(db_users.id_user,'/',db_users.name_foto) }}" width="128">
+                    <img style="border:1px solid #eaeaea;border-radius:5px;" src="views/app/images/avatares/{{ db_users.name_foto }}" width="128">
                   {% else %}
                     <img style="border:1px solid #eaeaea;border-radius:5px;" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" width="128">
                   {% endif %}
