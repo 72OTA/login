@@ -22,6 +22,7 @@
 * Modificación de password de usuario especifico
 * Activar o desactivar usuario
 * Registro, eliminacion y actualización de perfiles plantillas
+* Datos de Empresa con logo
 
 # Adicionales
 * Alertas mediante jquery-confirm!
