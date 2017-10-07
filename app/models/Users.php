@@ -796,6 +796,13 @@ class Users extends Models implements IModels {
         return array('success' => 0, 'message' => 'No se encontraron opciones para el perfil');
       }else{
         $html = "<form id='form_opciones_perfil' name='form_opciones_perfil' role='form' method='POST' enctype='multipart/form-data'>";
+        $html .="<div class='form-group'>
+          <label>
+            <div class='panel-footer text-center'>
+              <button type='button' id='update_perfil' class='btn btn-sm btn-success' onclick=\"execute_accion_administracion('POST','update_perfil','form_opciones_perfil','reload'); return false\" ><i class='glyphicon glyphicon-refresh'></i> Actualizar datos</button>
+            </div>
+          </label>
+        </div>";
         $html .= "<input type='hidden' name='perfil' id='peril' value='$perfil'>
         <ul>";
         $id = 0; $cont = 0;
@@ -838,11 +845,6 @@ class Users extends Models implements IModels {
           $cont =  $cont + 1;
         }
         $html .= "</ul>
-        <div class='form-group'>
-          <label>
-          <button type='button' id='update_perfil' onclick=\"execute_accion_administracion('POST','update_perfil','form_opciones_perfil','reload'); return false\" >Grabar</button>
-          </label>
-        </div>
         </form>";
         return array('success' => 1, 'message' => $html);
       }

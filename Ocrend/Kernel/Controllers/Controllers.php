@@ -61,6 +61,8 @@ abstract class Controllers {
 
     protected $menu_user = array();
 
+    protected $empresa_db = array();
+
     /**
       * Contiene información sobre el estado del usuario, si está o no conectado.
       *
@@ -124,6 +126,9 @@ abstract class Controllers {
 
           $this->menu_user = (new Model\Users)->getMenuOwnerUser();
           $this->template->addGlobal('menu_user', $this->menu_user );
+
+          $this->empresa_db = (new Model\Empresa)->get();
+          $this->template->addGlobal('empresa_db', $this->empresa_db );
         }
 
         # Extensiones

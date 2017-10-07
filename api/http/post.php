@@ -135,3 +135,8 @@ $app->post('/update_perfil', function() use($app) {
 
     return $app->json($u->update_perfil());
 });
+$app->post('/update_empresa', function() use($app) {
+    $e = new Model\Empresa;
+
+    return $app->json($e->update_empresa());
+});

@@ -157,3 +157,30 @@ function mostar_datos_perfil(){
     }
   });
 }
+function update_empresa(){
+  var formData = new FormData();
+  formData.append('logo',document.getElementById('imagefile').files[0]);
+  formData.append('nombre_empresa',document.getElementById('nombre_empresa').value);
+  formData.append('telefono',document.getElementById('telefono').value);
+  formData.append('email',document.getElementById('email').value);
+  formData.append('impuesto',document.getElementById('impuesto').value);
+  formData.append('tipo_moneda',document.getElementById('tipo_moneda').value);
+  formData.append('direccion',document.getElementById('direccion').value);
+  formData.append('ciudad',document.getElementById('ciudad').value);
+  formData.append('comuna',document.getElementById('comuna').value);
+  formData.append('region',document.getElementById('region').value);
+
+  $.ajax({
+      type : "POST",
+      url : "api/update_empresa",
+      contentType:false,
+      processData:false,
+      data : formData,
+      success : function(json) {
+          msg_box_alert(json.success,'Actualiza Empresa',json.message,'reload');
+      },
+      error : function(xhr, status) {
+        msg_box_alert(99,'Actualiza Empresa',xhr.responseText);
+      }
+    });
+}

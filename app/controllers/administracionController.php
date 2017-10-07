@@ -35,6 +35,11 @@ class administracionController extends Controllers implements IControllers {
           $u = new Model\Users($router);
           $op = '99';
           switch($this->method){
+            case 'empresa':
+              echo $this->template->render('administracion/empresa', array(
+                'menu_op' => $op
+               ));
+                break;
             case 'perfiles':
               echo $this->template->render('administracion/perfiles', array(
                 'menu_op' => $op,
@@ -84,7 +89,7 @@ class administracionController extends Controllers implements IControllers {
               echo $this->template->render('administracion/administracion',array(
                 'menu_op' => $op,
                 'q_perfiles' => count($u->getPerfiles()),
-                'q_users' => count($u->getUsers('*','1=1')) 
+                'q_users' => count($u->getUsers('*','1=1'))
                ));
               break;
           }
