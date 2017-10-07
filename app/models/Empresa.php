@@ -90,9 +90,9 @@ class Empresa extends Models implements IModels {
               $file->move(API_INTERFACE . 'views/app/images/', $img_name);
             }
 
-            # Actualiza usuario
+            # Actualiza empresa
             $this->db->update('empresa',array(
-              'nombre_empresa' => $nombre_empresa,
+              'nombre' => $nombre_empresa,
               'email' => $email,
               'telefono' => $telefono,
               'impuesto' => $impuesto,
@@ -102,7 +102,7 @@ class Empresa extends Models implements IModels {
               'comuna' => $comuna,
               'region' => $region
             ),"id_empresa = 1",'LIMIT 1');
-            
+
             if ($ext_foto != "" ){
               $this->db->update('empresa',array(
                 'ext_logo' => $ext_foto
