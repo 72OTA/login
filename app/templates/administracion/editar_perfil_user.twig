@@ -21,6 +21,9 @@
           <div class="box-body col-sm-4"></div>
           <div class="box-body col-sm-4">
             <form id="form_user_perfil" name="form_user_perfil" role="form" method="POST" enctype="multipart/form-data">
+              <div class="panel-footer text-center">
+                <button type="button" id='update_perfil_user' class="btn btn-sm btn-success"><i class="glyphicon glyphicon-refresh"></i> Actualizar datos</button>
+              </div>
               <input type='hidden' name='id_user' id='id_user' value='{{ db_users.id_user }}'>
               {% set id = 0 %}
               {% set cont = 0 %}
@@ -61,9 +64,6 @@
                   {% set cont =  cont + 1 %}
               {% endfor %}
               </ul>
-              <div class="form-group">
-                <button type="button" id="update_perfil_user">Grabar</button>
-              </div>
             </form>
           </div>
         </div>
