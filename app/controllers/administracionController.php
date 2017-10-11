@@ -30,9 +30,14 @@ class administracionController extends Controllers implements IControllers {
         ));
         global $config;
 
+
         // rol = 1 => admin
         if ($this->user['rol'] == 1){
           $u = new Model\Users($router);
+
+          //$data = $u->getOwnerUser();
+          //$u->update_online_user($data['id_user']);
+
           $op = '99';
           switch($this->method){
             case 'empresa':
@@ -89,7 +94,10 @@ class administracionController extends Controllers implements IControllers {
               echo $this->template->render('administracion/administracion',array(
                 'menu_op' => $op,
                 'q_perfiles' => count($u->getPerfiles()),
-                'q_users' => count($u->getUsers('*','1=1'))
+                'q_users' => count($u->getUsers('*','estado = 1')),
+                'q_users_online' => count($u->getUsers('*','online_fecha > 0')),
+                'db_user_online' => $u->getUsers('name,email','online_fecha > 0'),
+                'last_user' => $u->getUsers('name,email','estado = 1 order by id_user desc Limit 1')
                ));
               break;
           }

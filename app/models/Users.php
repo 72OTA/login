@@ -21,6 +21,7 @@ use Ocrend\Kernel\Helpers\Strings;
 use Ocrend\Kernel\Helpers\Emails;
 use Ocrend\Kernel\Helpers\Files;
 
+
 /**
  * Controla todos los aspectos de un usuario dentro del sistema.
  *
@@ -154,6 +155,10 @@ class Users extends Models implements IModels {
 
             # Generar la sesión
             $this->generateSession($query[0]);
+
+            #registra online
+            $this->update_online_user($query[0]['id_user'],'in');
+
             return true;
         }
 
@@ -253,6 +258,7 @@ class Users extends Models implements IModels {
 
             # Autentificar
             if ($this->authentication($email, $pass)) {
+
                 return array('success' => 1, 'message' => 'Conectado con éxito.');
             }
 
@@ -419,6 +425,29 @@ class Users extends Models implements IModels {
 
         # Redireccionar a la página principal del controlador
         $this->functions->redir($config['site']['url'] . 'administracion/usuario');
+    }
+
+    /**
+      * Actualiza estado de usuario en linea
+      * y luego redirecciona a administracion/usuarios
+      *
+      * @return void
+    */
+    final public function update_online_user($id_user,$opcion) {
+        global $config;
+
+        //# Actualiza Estado ON LINE
+        //dump($config['sessions']['life_time']);
+        $ahora = time();
+        $limite = $ahora-24*120;
+        $this->db->query("UPDATE users SET online_fecha=0 WHERE online_fecha < ".$limite);
+        if ($opcion === 'in'){
+          $this->db->query("UPDATE users SET online_fecha=".$ahora." WHERE id_user = '$id_user' LIMIT 1;");
+        }
+        else if ($opcion === 'out') {
+          $this->db->query("UPDATE users SET online_fecha=0 WHERE id_user = '$id_user' LIMIT 1;");
+        }
+
     }
 
     /**
@@ -698,6 +727,8 @@ class Users extends Models implements IModels {
         global $session,$config;
 
         if (null != $session->get('user_id')) {
+
+            $this->update_online_user($session->get('user_id'),'out');
             $session->remove('user_id');
         }
 
@@ -844,6 +875,7 @@ class Users extends Models implements IModels {
           $id=$data['id_menu'];
           $cont =  $cont + 1;
         }
+
         $html .= "</ul>
         </form>";
         return array('success' => 1, 'message' => $html);

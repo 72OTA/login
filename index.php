@@ -10,6 +10,7 @@
  */
 
 use Ocrend\Kernel\Router\Router;
+use app\models as Model;
 
 # Definir ruta de acceso permitida
 define('API_INTERFACE', '');

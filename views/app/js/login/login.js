@@ -26,12 +26,12 @@ function login(){
         });
       }
     },
-    error : function(/*xhr, status*/) {
+    error : function(xhr, status) {
       $.dialog({
         title: 'Acceso a sistema',
         type: 'red',
         typeAnimated: true,
-        content: 'Ha ocurrido un problema.',
+        content: xhr.responseText,
       });
     }
   });
