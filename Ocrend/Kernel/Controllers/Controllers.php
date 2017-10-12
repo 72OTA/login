@@ -127,9 +127,15 @@ abstract class Controllers {
           $this->menu_user = (new Model\Users)->getMenuOwnerUser();
           $this->template->addGlobal('menu_user', $this->menu_user );
 
-          $this->empresa_db = (new Model\Empresa)->get();
-          $this->template->addGlobal('empresa_db', $this->empresa_db );
+          $user = $this->user;
+          (new Model\Users)->update_online_user($user['id_user'],'in');
+
         }
+
+        $this->empresa_db = (new Model\Empresa)->get();
+        $this->template->addGlobal('empresa_db', $this->empresa_db );
+
+
 
         # Extensiones
         $this->template->addExtension($this->functions);

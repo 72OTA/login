@@ -429,17 +429,16 @@ class Users extends Models implements IModels {
 
     /**
       * Actualiza estado de usuario en linea
-      * y luego redirecciona a administracion/usuarios
-      *
+      * @param $id_user = corresponde a usuario que ingresa o sale de la aplicacion
+      * @param $opcion = in|out, 'in' = para login, out = para logout
       * @return void
     */
     final public function update_online_user($id_user,$opcion) {
         global $config;
 
-        //# Actualiza Estado ON LINE
-        //dump($config['sessions']['life_time']);
+        // Actualiza Estado ON LINE
         $ahora = time();
-        $limite = $ahora-24*120;
+        $limite = $ahora-24*60;
         $this->db->query("UPDATE users SET online_fecha=0 WHERE online_fecha < ".$limite);
         if ($opcion === 'in'){
           $this->db->query("UPDATE users SET online_fecha=".$ahora." WHERE id_user = '$id_user' LIMIT 1;");

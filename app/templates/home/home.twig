@@ -3,7 +3,11 @@
    <div class="container">
            <div class="card card-container">
             <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
-            <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+
+            <img class="img-responsive" src="views/app/images/{{ '%s%s%s'|format('logo','.',empresa_db.ext_logo) }}" alt="Logo">
+
+            <!--<img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />-->
+
             <p id="profile-name" class="profile-name-card"></p>
             <form class="form-signin" id="login_form" method="POST">
                 <input type="email" name="email" class="form-control" placeholder="Email" autofocus>
