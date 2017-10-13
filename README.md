@@ -14,7 +14,9 @@
 * redirección pagina de inicio asignada a usuario
 * avatares de usuario logueado
 
+
 # Modulos administración de usuario y perfiles
+* Vista Principal de usuarios Registrados/En Linea
 * Registro de usuarios -> sólo para usuarios con rol admin
 * Recuperación de clave mediante correo
 * Modificación peril definido a usuario
@@ -23,6 +25,9 @@
 * Activar o desactivar usuario
 * Registro, eliminacion y actualización de perfiles plantillas
 * Datos de Empresa con logo
+* Exportación a excel de listado de usuarios
+
 
 # Adicionales
 * Alertas mediante jquery-confirm!
+* API PHPExcel incorporada mediante composer

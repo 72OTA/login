@@ -20,7 +20,8 @@ use Ocrend\Kernel\Router\IRouter;
 use Ocrend\Kernel\Helpers\Strings;
 use Ocrend\Kernel\Helpers\Emails;
 use Ocrend\Kernel\Helpers\Files;
-
+use PHPExcel;
+use PHPExcel_IOFactory;
 
 /**
  * Controla todos los aspectos de un usuario dentro del sistema.
@@ -733,6 +734,71 @@ class Users extends Models implements IModels {
 
         $this->functions->redir();
     }
+
+    /**
+     * Exportar usuarios a un archivo excel
+     *
+     * @return void
+     */
+    public function exporta_excel_users() {
+        global $config;
+
+        $objPHPExcel = new PHPExcel();
+
+        //Informacion del excel
+        $objPHPExcel->getProperties() ->setCreator("Jorge Jara H.")
+                                      ->setLastModifiedBy("JJH")
+                                      ->setTitle("Usuarios");
+        //encabezado
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'id_user');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', 'name');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', 'email');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', 'fono');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', 'cargo');
+
+        $u = $this->getUsers('*','estado = 1');
+        $fila = 2;
+        foreach ($u as $value => $data) {
+
+          $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A'.$fila, $data['id_user']);
+          $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$fila, $data['name']);
+          $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$fila, $data['email']);
+          $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$fila, $data['fono']);
+          $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$fila, $data['cargo']);
+
+          $fila++;
+        }
+
+        //autisize para las columna
+        foreach(range('A','E') as $columnID)
+        {
+            $objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        $objPHPExcel->getActiveSheet()->setTitle('listado_usuarios');
+
+        // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="listar_usuarios.xlsx"');
+        header('Cache-Control: max-age=0');
+        // If you're serving to IE 9, then the following may be needed
+        header('Cache-Control: max-age=1');
+
+        // If you're serving to IE over SSL, then the following may be needed
+        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
+        header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
+        header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
+        header ('Pragma: public'); // HTTP/1.0
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
+
+
+        //$this->functions->redir($config['site']['url'] . '');
+    }
+
 
     /**
      * Obtiene datos de un usuario según su id en la base de datos

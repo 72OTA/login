@@ -90,6 +90,9 @@ class administracionController extends Controllers implements IControllers {
             case "estado_user":
                 $u->update_estado_user();
                 break;
+          case "exporta_excel_users":
+              $u->exporta_excel_users();
+              break;
             default:
               echo $this->template->render('administracion/administracion',array(
                 'menu_op' => $op,
