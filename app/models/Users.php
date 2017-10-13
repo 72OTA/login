@@ -750,13 +750,14 @@ class Users extends Models implements IModels {
                                       ->setLastModifiedBy("JJH")
                                       ->setTitle("Usuarios");
         //encabezado
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'id_user');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', 'name');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', 'email');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', 'fono');
-        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', 'cargo');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('A1', 'id');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B1', 'Nombre');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C1', 'E-Mail');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D1', 'Fono');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E1', 'Rol');
+        $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F1', 'Estado');
 
-        $u = $this->getUsers('*','estado = 1');
+        $u = $this->getUsers('id_user,name,email,fono,Rol,Estado','1=1');
         $fila = 2;
         foreach ($u as $value => $data) {
 
@@ -764,7 +765,8 @@ class Users extends Models implements IModels {
           $objPHPExcel->setActiveSheetIndex(0)->setCellValue('B'.$fila, $data['name']);
           $objPHPExcel->setActiveSheetIndex(0)->setCellValue('C'.$fila, $data['email']);
           $objPHPExcel->setActiveSheetIndex(0)->setCellValue('D'.$fila, $data['fono']);
-          $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$fila, $data['cargo']);
+          $objPHPExcel->setActiveSheetIndex(0)->setCellValue('E'.$fila, $data['Rol'] ? 'Admin':'Normal' );
+          $objPHPExcel->setActiveSheetIndex(0)->setCellValue('F'.$fila, $data['Estado'] ? 'Activo':'Bloqueado' );
 
           $fila++;
         }
@@ -780,6 +782,7 @@ class Users extends Models implements IModels {
         $objPHPExcel->getActiveSheet()->setTitle('listado_usuarios');
 
         // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.ms-excel');
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="listar_usuarios.xlsx"');
         header('Cache-Control: max-age=0');
@@ -787,16 +790,12 @@ class Users extends Models implements IModels {
         header('Cache-Control: max-age=1');
 
         // If you're serving to IE over SSL, then the following may be needed
-        header ('Expires: Mon, 26 Jul 1997 05:00:00 GMT'); // Date in the past
         header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
         header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
         header ('Pragma: public'); // HTTP/1.0
 
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save('php://output');
-
-
-        //$this->functions->redir($config['site']['url'] . '');
     }
 
 

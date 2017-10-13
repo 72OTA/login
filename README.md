@@ -19,8 +19,8 @@
 * Vista Principal de usuarios Registrados/En Linea
 * Registro de usuarios -> sólo para usuarios con rol admin
 * Recuperación de clave mediante correo
-* Modificación peril definido a usuario
-* Modificación Datos de usuario (pendiente subir avatar)
+* Modificación perfil definido a usuario
+* Modificación Datos de usuario
 * Modificación de password de usuario especifico
 * Activar o desactivar usuario
 * Registro, eliminacion y actualización de perfiles plantillas
