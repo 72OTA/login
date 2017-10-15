@@ -34,10 +34,6 @@ class administracionController extends Controllers implements IControllers {
         // rol = 1 => admin
         if ($this->user['rol'] == 1){
           $u = new Model\Users($router);
-
-          //$data = $u->getOwnerUser();
-          //$u->update_online_user($data['id_user']);
-
           $op = '99';
           switch($this->method){
             case 'empresa':

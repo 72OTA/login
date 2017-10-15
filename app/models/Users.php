@@ -130,8 +130,9 @@ class Users extends Models implements IModels {
     private function generateSession(array $user_data) {
         global $session, $config;
 
-        $session->set('user_id', (int) $user_data['id_user']);
-        $session->set('unique_session', $config['sessions']['unique']);
+        //$session->set('user_id', (int) $user_data['id_user']);
+        //$session->set('unique_session', $config['sessions']['unique']);
+        $session->set($config['sessions']['unique'] . '_user_id',(int) $user_data['id_user']);
     }
 
     /**
@@ -724,12 +725,14 @@ class Users extends Models implements IModels {
      * @return void
      */
     public function logout() {
-        global $session,$config;
+        global $session, $config;
 
-        if (null != $session->get('user_id')) {
+        //if (null != $session->get('user_id')) {
+        if(null != $session->get($config['sessions']['unique'] . '_user_id')) {
 
-            $this->update_online_user($session->get('user_id'),'out');
-            $session->remove('user_id');
+            $this->update_online_user($session->get($config['sessions']['unique'] . '_user_id'),'out');
+
+            $session->remove($config['sessions']['unique'] . '_user_id');
         }
 
         $this->functions->redir();

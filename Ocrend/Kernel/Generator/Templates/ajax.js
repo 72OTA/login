@@ -23,14 +23,14 @@ function {{view}}(){
 
 /**
  * Events
- *  
- * @param {*} e 
+ *
+ * @param {*} e
  */
 $('#{{view}}').click(function(e) {
   e.defaultPrevented;
   {{view}}();
 });
-$('#{{view}}_form').keypress(function(e) {
+$('form#{{view}}_form input').keypress(function(e) {
     e.defaultPrevented;
     if(e.which == 13) {
         {{view}}();

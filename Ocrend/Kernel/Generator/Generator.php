@@ -24,7 +24,7 @@ final class Generator {
     /**
       * Contiene los argumentos pasados por la consola
       *
-      * @var array 
+      * @var array
     */
     private $arguments = array();
 
@@ -101,7 +101,7 @@ final class Generator {
       'database' => false,
       'crud' => false,
       'api' => null # contiene el verbo http
-    ); 
+    );
 
     /**
       * Nombre de la tabla a crear en la base de datos.
@@ -162,7 +162,7 @@ final class Generator {
       # TR final del unico elemento en el thead con el título de las acciones
       $thead_final .= "$actions_title \n</tr>";
 
-      # Añadir las acciones 
+      # Añadir las acciones
       $tbody_final .= "$actions \n";
       # TR final de cada elemento en el tbody
       $tbody_final .= "</tr>\n{% endfor %}";
@@ -179,7 +179,7 @@ final class Generator {
       *
       * @param bool $is_crud: Utilizado para saber si se llama desde un crud
       * @param bool $edit: En caso de que sea desde un crud, se usa para definir los {{value}} automáticos
-      * 
+      *
       * @return string con el contenido del formulario
     */
     private function createViewFormContent(bool $is_crud, bool $edit = false) : string {
@@ -205,7 +205,7 @@ final class Generator {
         } else {
           $form = str_replace('{{ajax_file_name}}',$this->name['view'],$form);
         }
-        
+
         # Conjunto de inputs
         $final_inputs = "\n";
         # Reemplazar inputs
@@ -213,16 +213,16 @@ final class Generator {
           # Si puede ser de tipo email
           if(false !== strpos($name,'email')) {
              $field_input = str_replace('{{type_input}}','email',$inputs);
-          # Si puede ser un teléfono 
-          } elseif(false !== strpos($name,'phone') 
-               || false !== strpos($name,'telefono') 
+          # Si puede ser un teléfono
+          } elseif(false !== strpos($name,'phone')
+               || false !== strpos($name,'telefono')
                || false !== strpos($name,'celular')) {
              $field_input = str_replace('{{type_input}}','tel',$inputs);
           # Si no, un texto cualquiera
           } else {
             $field_input = str_replace('{{type_input}}','text',$inputs);
           }
-          
+
           # Desde la edición
           if($edit) {
             $field_input = str_replace('{{value}}','{{ data.'.$name.' }}',$field_input);
@@ -230,7 +230,7 @@ final class Generator {
           } else {
             $field_input = str_replace('{{value}}','',$field_input);
           }
-          
+
           # Últimos retoques
           $field_input = str_replace('{{name}}',$name,$field_input);
           $field_input = str_replace('{{label}}',ucwords(str_replace('_',' ',$name)),$field_input);
@@ -238,9 +238,9 @@ final class Generator {
           # Añadir el input al formulario
           $final_inputs .= "$field_input\n\n";
         }
-        
+
         # Reemplazo final
-        $form = str_replace('{{inputs}}',$final_inputs,$form);    
+        $form = str_replace('{{inputs}}',$final_inputs,$form);
 
         # Campo oculto
         if($edit) {
@@ -248,9 +248,9 @@ final class Generator {
         } else {
           $form = str_replace('{{hiddens}}','',$form);
         }
-        
+
       }
-      # Si no, es un formulario por defecto que tiene ajax 
+      # Si no, es un formulario por defecto que tiene ajax
       else {
         # Reemplazar datos básicos
         $form = str_replace('{{ajax_file_name}}',$this->name['view'],$form);
@@ -262,7 +262,7 @@ final class Generator {
         # Reemplazo final
         $form = str_replace('{{hiddens}}','',$form);
         # Campo oculto
-        $form = str_replace('{{inputs}}',$inputs,$form);        
+        $form = str_replace('{{inputs}}',$inputs,$form);
       }
 
       return $form;
@@ -312,7 +312,7 @@ final class Generator {
         # Crear la vista
         $this->writeFile($ruta . $this->name['view'] . '.twig',$form);
         $this->writeLn('Se ha creado el fichero ' . $ruta . $this->name['view'] . '.twig');
-      } 
+      }
       # Vista por defecto cuando no hay modelos ni crud blank.twig
       else {
         # Obtener la vista
@@ -324,17 +324,17 @@ final class Generator {
     }
 
     /**
-      * Escribe un mensaje en consola y salta de línea 
+      * Escribe un mensaje en consola y salta de línea
       *
-      * @param null|string $msg: Mensaje 
+      * @param null|string $msg: Mensaje
       *
       * @return void
     */
     private function writeLn($msg = null) {
         if(null != $msg) {
             echo "$msg";
-        } 
-        
+        }
+
         echo "\n";
     }
 
@@ -366,7 +366,7 @@ final class Generator {
       if(file_exists($dir)) {
         throw new \Exception('El fichero ' . $dir . ' ya existe.');
       }
-      
+
       $f = new \SplFileObject($dir,'w');
       return (int) $f->fwrite($content);
     }
@@ -393,42 +393,42 @@ final class Generator {
       $sizeof = sizeof($this->tablesCollection);
       if($sizeof > 0) {
         global $config;
-        
+
         # Abrir conexión a la base de datos
         $db = Database::Start(
           $config['database']['name'],
           $config['database']['motor'],
           false
         );
-        
+
         # Empezar a escribir
         $SQL = 'CREATE TABLE `' . $this->table_name . '` (';
-        
+
         # Crear el campo del id
-        $SQL .= ' `id_' . $this->table_name . '` INT(11) NOT NULL AUTO_INCREMENT,'; 
-        
+        $SQL .= ' `id_' . $this->table_name . '` INT(11) NOT NULL AUTO_INCREMENT,';
+
         # Llenar la query con los campos
         $i = 1;
         foreach ($this->tablesCollection as $name => $field_info) {
           # `campo` tipo(longitud)
           $SQL .= ' `' . trim($name) . '` ' . $field_info['tipo'] . (null !== $field_info['longitud'] ? '('.trim($field_info['longitud']).') ' : ' ') .  'NOT NULL';
-        
+
           # Agregar la coma
           if($i < $sizeof) {
             $SQL .= ' , ';
           } $i++;
         }
-        
+
         # Cerrar la query
         $SQL .= ', PRIMARY KEY (`id_' . $this->table_name . '`)';
         $SQL .= " ) ENGINE='InnoDB' DEFAULT CHARSET='utf8' COLLATE='utf8_unicode_ci';";
-              
+
         # Crear la query
         $db->query($SQL);
-        
+
         # Cerrar la conexión
         $db = null;
-        
+
         # Mostrar mensaje por pantalla
         $this->writeLn('Se ha creado la tabla ' . $this->table_name . ' en la base de datos ' . $config['database']['name']);
       }
@@ -445,7 +445,7 @@ final class Generator {
       # Si es un controlador de crud
       if($this->modules['crud']) {
         $content = "global \$config;
-        
+
         \${{model_var}} = new Model\\{{model}}(\$router);
 
         switch(\$this->method) {
@@ -495,7 +495,7 @@ final class Generator {
       $content = "// Contenido del modelo... \n";
       # Si es el modelo de un crud
       if($this->modules['crud']) {
-        
+
         # Campos de la base de datos
         $database_fields = '';
         $size = sizeof($this->tablesCollection);
@@ -504,7 +504,7 @@ final class Generator {
           $database_fields .= "\t\t\t\t\t'$field' => \$http->request->get('$field')";
           if($i < $size) {
             $database_fields .= ",\n";
-          } 
+          }
           $i++;
         }
 
@@ -520,7 +520,7 @@ final class Generator {
       # throw new ModelsException('¡Esto es un error!');
     }
 
-    /** 
+    /**
       * Crea un elemento de {{model}} en la tabla `{{table_name}}`
       *
       * @return array con información para la api, un valor success y un mensaje.
@@ -528,7 +528,7 @@ final class Generator {
     final public function add() {
       try {
         global \$http;
-                  
+
         # Controlar errores de entrada en el formulario
         \$this->errors();
 
@@ -542,8 +542,8 @@ $database_fields
         return array('success' => 0, 'message' => \$e->getMessage());
       }
     }
-          
-    /** 
+
+    /**
       * Edita un elemento de {{model}} en la tabla `{{table_name}}`
       *
       * @return array con información para la api, un valor success y un mensaje.
@@ -553,8 +553,8 @@ $database_fields
         global \$http;
 
         # Obtener el id del elemento que se está editando y asignarlo en \$this->id
-        \$this->setId(\$http->request->get('{{id_table_name}}'),'No se puede editar el elemento.'); 
-                  
+        \$this->setId(\$http->request->get('{{id_table_name}}'),'No se puede editar el elemento.');
+
         # Controlar errores de entrada en el formulario
         \$this->errors();
 
@@ -569,7 +569,7 @@ $database_fields
       }
     }
 
-    /** 
+    /**
       * Borra un elemento de {{model}} en la tabla `{{table_name}}`
       * y luego redirecciona a {{view}}/&success=true
       *
@@ -586,7 +586,7 @@ $database_fields
     /**
       * Obtiene elementos de {{model}} en la tabla `{{table_name}}`
       *
-      * @param bool \$multi: true si se quiere obtener un listado total de los elementos 
+      * @param bool \$multi: true si se quiere obtener un listado total de los elementos
       *                     false si se quiere obtener un único elemento según su {{id_table_name}}
       * @param string \$select: Elementos de {{table_name}} a seleccionar
       *
@@ -610,9 +610,13 @@ $database_fields
       * @return array
     */
     final public function foo() : array {
-      global \$http;
+      try {
+        global \$http;
 
-      return array('success' => 1, 'message' => 'Funcionando');
+        return array('success' => 1, 'message' => 'Funcionando');
+      } catch(ModelsException \$e) {
+        return array('success' => 0, 'message' => \$e->getMessage());
+      }
     }\n";
         }
         # Si hay una tabla nueva creada
@@ -630,7 +634,7 @@ $database_fields
     }\n";
         }
       }
-      
+
       return $content;
     }
 
@@ -638,7 +642,7 @@ $database_fields
       * Crea el contenido que se escribirá para la petición rest en uno de los verbos HTTP.
       * El contenido dependerá de si se está creando o no un modelo también.
       *
-      * @return void 
+      * @return void
     */
     private function createApiContent(bool $model) : string {
       if($model) {
@@ -647,9 +651,9 @@ $database_fields
   *
   * @return json
 */\n\$app->{{method}}('/{{view}}', function() use(\$app) {
-  \${{model_var}} = new Model\{{model}}; 
+  \${{model_var}} = new Model\{{model}};
 
-  return \$app->json(\${{model_var}}->{{method_model}}());   
+  return \$app->json(\${{model_var}}->{{method_model}}());
 });";
       }
 
@@ -658,7 +662,7 @@ $database_fields
   *
   * @return json
 */\n\$app->{{method}}('/{{view}}', function() use(\$app) {
-  return \$app->json(array('success' => 0, 'message' => 'Funcionando.'));   
+  return \$app->json(array('success' => 0, 'message' => 'Funcionando.'));
 });";
 
     }
@@ -666,14 +670,14 @@ $database_fields
     /**
       * Crea un controlador según la configuración de los comandos.
       *
-      * @return void 
+      * @return void
     */
      private function createController() {
       global $config;
 
       # Obtener contenido
       $content = $this->createControllerContent();
-      
+
       # Cargar plantilla
       $route = self::R_CONTROLLERS . $this->name['controller'] .'.php';
       $content = str_replace('{{content}}',$content,$this->readFile(self::TEMPLATE_DIR . 'controller.php'));
@@ -681,7 +685,7 @@ $database_fields
       # Créditos
       $content = str_replace('{{author}}',$config['site']['author'],$content);
       $content = str_replace('{{author_email}}',$config['site']['author_email'],$content);
-    
+
       # Información
       $content = str_replace('{{model_var}}',strtolower($this->name['model'][0]),$content);
       $content = str_replace('{{model}}',$this->name['model'],$content);
@@ -696,7 +700,7 @@ $database_fields
     /**
       * Crea un modelo según la configuración de los comandos.
       *
-      * @return void 
+      * @return void
     */
     private function createModel() {
       global $config;
@@ -709,7 +713,7 @@ $database_fields
         $content = str_replace('{{table_name}}',$this->table_name,$content);
         $content = str_replace('{{id_table_name}}','id_' . $this->table_name,$content);
       }
-      
+
       # Cargar Plantilla
       $route = self::R_MODELS . $this->name['model'] .'.php';
       $content = str_replace('{{content}}',$content,$this->readFile(self::TEMPLATE_DIR . 'model.php'));
@@ -717,13 +721,13 @@ $database_fields
       # Base de datos
       if($this->modules['database']) {
         $content = str_replace('{{trait_db_model}}','/**
-      * Característica para establecer conexión con base de datos. 
+      * Característica para establecer conexión con base de datos.
     */
     use DBModel;',$content);
         $content = str_replace('{{trait_db_model_construct}}','$this->startDBConexion();',$content);
         $content = str_replace('{{trait_db_model_destruct}}','$this->endDBConexion();',$content);
       }
-      # Si no hay 
+      # Si no hay
       else {
         $content = str_replace('{{trait_db_model}}','',$content);
         $content = str_replace('{{trait_db_model_construct}}','',$content);
@@ -733,7 +737,7 @@ $database_fields
       # Créditos
       $content = str_replace('{{author}}',$config['site']['author'],$content);
       $content = str_replace('{{author_email}}',$config['site']['author_email'],$content);
-    
+
       # Información
       $content = str_replace('{{model}}',$this->name['model'],$content);
       $content = str_replace('{{view}}',$this->name['view'],$content);
@@ -742,11 +746,11 @@ $database_fields
       $this->writeFile($route,$content);
       $this->writeLn('Creado el modelo ' . $route);
     }
-    
+
     /**
       * Crea los archivos javascript necesarios para el funcionamiento con ajax.
       *
-      * @return void 
+      * @return void
     */
     private function createAjax() {
       # Obtener fuente
@@ -761,7 +765,7 @@ $database_fields
         $content = str_replace('{{method}}','POST',$content);
         $add = str_replace('{{rest}}',$this->name['view'] . '/crear',$content);
         $edit = str_replace('{{rest}}',$this->name['view'] . '/editar',$content);
-        
+
         # Rutas
         $route_add = self::R_VIEWS . 'js/' . $this->name['view'] . '/crear.js';
         $route_edit = self::R_VIEWS . 'js/' . $this->name['view'] . '/editar.js';
@@ -789,7 +793,7 @@ $database_fields
 
         # Crear la carpeta
         mkdir(self::R_VIEWS . 'js/' . $this->name['view'] .'/',0777,true);
-        
+
         # Crear archivo
         $this->writeFile($route,$content);
 
@@ -801,10 +805,10 @@ $database_fields
     /**
       * Escribe en el fichero del verbo HTTP correspondiente en la api.
       *
-      * @return void 
+      * @return void
     */
     private function writeInAPI() {
-      # Si es un crud son dos peticiones rest 
+      # Si es un crud son dos peticiones rest
       if($this->modules['crud']) {
         # Comunes para edit & add
         $add = $this->createApiContent(true);
@@ -827,10 +831,10 @@ $database_fields
         $this->writeInFile($route,$add);
         $this->writeInFile($route,$edit);
       }
-      # Si no es un crud, se siguen las reglas 
+      # Si no es un crud, se siguen las reglas
       else {
         # Comunes
-        $content = $this->createApiContent($this->modules['model']); 
+        $content = $this->createApiContent($this->modules['model']);
         $content = str_replace('{{method}}',$this->modules['api'],$content);
         $content = str_replace('{{view}}',$this->name['view'],$content);
 
@@ -840,7 +844,7 @@ $database_fields
           $content = str_replace('{{model}}',$this->name['model'],$content);
           $content = str_replace('{{method_model}}','foo',$content);
         }
-        
+
         # Escribir en el archivo
         $route = self::R_API . $this->modules['api'] . '.php';
         $this->writeInFile($route,$content);
@@ -858,7 +862,7 @@ $database_fields
     /**
       * Lanzador para empezar a crear todos los archivos según los comandos.
       *
-      * @return void 
+      * @return void
     */
     private function buildFiles() {
       # Crear tabla en la base de datos
@@ -876,7 +880,7 @@ $database_fields
         $this->createModel();
       }
 
-      # Escribir en la api rest 
+      # Escribir en la api rest
       if($this->modules['ajax'] || $this->modules['api'] !== null || $this->modules['crud']) {
         $this->writeInAPI();
       }
@@ -946,10 +950,10 @@ $database_fields
     */
     private function lexer() {
       # Cargar la ayuda
-      if($this->arguments[0] == '-ayuda' || 
-         $this->arguments[0] == '-ashuda' || 
+      if($this->arguments[0] == '-ayuda' ||
+         $this->arguments[0] == '-ashuda' ||
          $this->arguments[0] == '-help') {
-        
+
         $this->help();
 
         return;
@@ -960,8 +964,8 @@ $database_fields
       if(sizeof($action) != 2 || $action[0] != 'app') {
         throw new \Exception('El comando inicial debe tener la forma app:accion.');
       }
-  
-      # Verificar que exista un nombre 
+
+      # Verificar que exista un nombre
       if(!array_key_exists(1,$this->arguments)) {
         throw new \Exception('Se debe asignar un nombre.');
       } else {
@@ -980,7 +984,7 @@ $database_fields
       # Saber si se pasaron opciones correctas
       $lexer = false;
 
-      # Revisar lo que debe hacerse 
+      # Revisar lo que debe hacerse
       if($action[1] == 'crud') {
         $lexer = true;
         $this->modules['crud'] = true;
@@ -1021,10 +1025,10 @@ $database_fields
         for($i = 2; $i < $size; $i++) {
 
           # Base de datos
-          if($this->arguments[$i] == '-db') {  
+          if($this->arguments[$i] == '-db') {
             # Revisar si existe un nombre
             if(array_key_exists($i + 1, $this->arguments)) {
-              # Revisar la sintaxis del nombre 
+              # Revisar la sintaxis del nombre
               if(!preg_match('/^[a-zA-Z0-9_]*$/',$this->arguments[$i + 1])) {
                 throw new \Exception('El formato del nombre debe ser alfanumerico y el unico caracter extra permitido es el " _ "');
               }
@@ -1051,7 +1055,7 @@ $database_fields
                   }
                   # Almacenar en la colección
                   $this->tablesCollection[$campo[0]] = array(
-                    'tipo' => strtoupper($campo[1]), 
+                    'tipo' => strtoupper($campo[1]),
                     'longitud' => null
                   );
                 } else {
@@ -1080,7 +1084,7 @@ $database_fields
             $this->modules['api'] = 'post';
           }
 
-          # Api rest 
+          # Api rest
           if(strpos($this->arguments[$i], '-api:') !== false) {
             if(in_array(strtolower($this->arguments[$i]),['-api:get','-api:post','-api:put','-api:delete'])) {
               $this->modules['api'] = strtolower(explode(':',$this->arguments[$i])[1]);
@@ -1088,7 +1092,7 @@ $database_fields
               throw new \Exception('El verbo HTTP de la api rest no existe.');
             }
           }
-          
+
         }
       }
     }
@@ -1101,7 +1105,7 @@ $database_fields
     */
     public function __construct(array $args) {
       try {
-        # Cantidad mínima de argumentos 
+        # Cantidad mínima de argumentos
         if(sizeof($args) < 2) {
           throw new \Exception('El generador debe tener la forma php gen.php [comandos]');
         }

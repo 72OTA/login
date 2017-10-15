@@ -25,7 +25,7 @@ abstract class Models {
     /**
       * Tiene siempre el id pasado por la ruta, en caso de no haber ninguno, será cero.
       *
-      * @var int 
+      * @var int
     */
     protected $id = 0;
 
@@ -46,29 +46,31 @@ abstract class Models {
     /**
       * Inicia la configuración inicial de cualquier modelo
       *
-      * @param IRouter $router: Instancia de un Router 
-      *                                    
+      * @param IRouter $router: Instancia de un Router
+      *
     */
     protected function __construct(IRouter $router = null) {
         global $session, $config;
-        
+
         # Id captado por la ruta
         if (null != $router) {
             $this->id = $router->getId(true);
-            $this->id = null == $this->id ? 0 : $this->id; 
+            $this->id = null == $this->id ? 0 : $this->id;
         }
 
         # Instanciar las funciones
         $this->functions = new Functions();
 
         # Verificar sesión del usuario
-        if(null !== $session->get('user_id') && $session->get('unique_session') == $config['sessions']['unique']) {
-           $this->id_user = $session->get('user_id');
+        //if(null !== $session->get('user_id') && $session->get('unique_session') == $config['sessions']['unique']) {
+        if(null !== $session->get($config['sessions']['unique'] . '_user_id')) {
+           //$this->id_user = $session->get('user_id');
+           $this->id_user = $session->get($config['sessions']['unique'] . '_user_id');
         }
     }
 
     /**
-      * Asigna el id desde un modelo, ideal para cuando queremos darle un valor numérico 
+      * Asigna el id desde un modelo, ideal para cuando queremos darle un valor numérico
       * que proviene de un formulario y puede ser inseguro.
       *
       * @param mixed $id : Id a asignar en $this->id
