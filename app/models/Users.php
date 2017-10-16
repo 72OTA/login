@@ -810,21 +810,19 @@ class Users extends Models implements IModels {
     public function generar_pdf_users() {
         global $config;
 
-        $mpdf = new mPDF('',    // mode - default ''
-                         'Letter',    // format - A4, for example, default ''
-                         0,     // font size - default 0
-                         '',    // default font family
-                         15,    // margin_left
-                         15,    // margin right
-                         16,     // margin top
-                         16,    // margin bottom
-                         9,     // margin header
-                         9,     // margin footer
-                         'L');  // L - landscape, P - portrait
+        $mpdf = new mPDF('utf-8','mm');
 
         $mpdf->SetDisplayMode('fullpage');
+        $html="<html>";
+        $html.="<head>
+              <link href='views/app/vendor/bootstrap/css/bootstrap.min.css' rel='stylesheet' />
+              </head>";
+        $html.="<body>";
+        $empresa = (new Model\Empresa)->get();
+        $html.="<img style='vertical-align: top; opacity: 0.5' src='views/app/images/logo.".$empresa['ext_logo']."' width='80' />";
 
-        $html="<table >
+        $html.="<table class='table table-bordered'>";
+        $html.="<caption><h1>Listado de Usuarios</h1></caption>
                 <thead>
                   <tr>
                     <th>No</th>
@@ -844,19 +842,24 @@ class Users extends Models implements IModels {
                 foreach ($u as $value => $data) {
                   $html.="<tr>
                           <td>".$fila."</td>
-                          <td>".$data['name']."</td>
+                          <td>".strtolower($data['name'])."</td>
                           <td>".$data['email']."</td>
                           <td>".$data['fono']."</td>
                           <td>".$data['cargo']."</td>
-                          <td>".$data['perfil']."</td>
-                          <td>".$data['rol']."</td>
-                          <td>".$data['estado']."</td>
+                          <td>".$data['perfil']."</td>";
+                          $data['rol'] ? $rol ="Admin":$rol = "User";
+                  $html.="<td>".$rol."</td>";
+                          $data['estado'] ? $estado ="Activo":$estado = "Bloqueado";
+                  $html.="<td>".$estado ."</td>
                          </tr>";
                   $fila++;
                 }
 
                 $html.="</tbody>
                 </table>";
+          $html.="</div>";
+        $html.="</body>";
+        $html.="</html>";
 
         $mpdf->writeHTML($html);
 
