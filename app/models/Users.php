@@ -810,11 +810,21 @@ class Users extends Models implements IModels {
     public function generar_pdf_users() {
         global $config;
 
-        //$mpdf = new \Mpdf\Mpdf();
-        $mpdf = new mPDF('c','LETTER');
+        $mpdf = new mPDF('',    // mode - default ''
+                         'Letter',    // format - A4, for example, default ''
+                         0,     // font size - default 0
+                         '',    // default font family
+                         15,    // margin_left
+                         15,    // margin right
+                         16,     // margin top
+                         16,    // margin bottom
+                         9,     // margin header
+                         9,     // margin footer
+                         'L');  // L - landscape, P - portrait
+
         $mpdf->SetDisplayMode('fullpage');
 
-        $html="<table class='table table-bordered'>
+        $html="<table >
                 <thead>
                   <tr>
                     <th>No</th>
@@ -832,7 +842,6 @@ class Users extends Models implements IModels {
                 $u = $this->getUsers('name,email,fono,perfil,rol,cargo,estado','1=1');
                 $fila = 1;
                 foreach ($u as $value => $data) {
-
                   $html.="<tr>
                           <td>".$fila."</td>
                           <td>".$data['name']."</td>
@@ -840,11 +849,12 @@ class Users extends Models implements IModels {
                           <td>".$data['fono']."</td>
                           <td>".$data['cargo']."</td>
                           <td>".$data['perfil']."</td>
-                          <td>".$data['rol'] ? "Admin":"Usuario"."</td>
-                          <td>".$data['estado'] ? "Activo":"Bloqueado"."</td>
+                          <td>".$data['rol']."</td>
+                          <td>".$data['estado']."</td>
                          </tr>";
                   $fila++;
                 }
+
                 $html.="</tbody>
                 </table>";
 
