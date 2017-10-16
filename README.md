@@ -26,8 +26,10 @@
 * Registro, eliminacion y actualización de perfiles plantillas
 * Datos de Empresa con logo
 * Exportación a excel de listado de usuarios
+* Impresion de listados de usuarios a PDF
 
 
 # Adicionales
 * Alertas mediante jquery-confirm!
 * API PHPExcel incorporada mediante composer
+* API mPDF incorporada mediante composer
