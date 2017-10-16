@@ -22,6 +22,7 @@ use Ocrend\Kernel\Helpers\Emails;
 use Ocrend\Kernel\Helpers\Files;
 use PHPExcel;
 use PHPExcel_IOFactory;
+use mPDF;
 
 /**
  * Controla todos los aspectos de un usuario dentro del sistema.
@@ -800,6 +801,59 @@ class Users extends Models implements IModels {
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save('php://output');
     }
+
+    /**
+     * Exportar usuarios a un archivo excel
+     *
+     * @return void
+     */
+    public function generar_pdf_users() {
+        global $config;
+
+        //$mpdf = new \Mpdf\Mpdf();
+        $mpdf = new mPDF('c','LETTER');
+        $mpdf->SetDisplayMode('fullpage');
+
+        $html="<table class='table table-bordered'>
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Nombre</th>
+                    <th>E-Mail</th>
+                    <th>Fono</th>
+                    <th>Cargo</th>
+                    <th>Perfil</th>
+                    <th>ROL</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>";
+
+                $u = $this->getUsers('name,email,fono,perfil,rol,cargo,estado','1=1');
+                $fila = 1;
+                foreach ($u as $value => $data) {
+
+                  $html.="<tr>
+                          <td>".$fila."</td>
+                          <td>".$data['name']."</td>
+                          <td>".$data['email']."</td>
+                          <td>".$data['fono']."</td>
+                          <td>".$data['cargo']."</td>
+                          <td>".$data['perfil']."</td>
+                          <td>".$data['rol'] ? "Admin":"Usuario"."</td>
+                          <td>".$data['estado'] ? "Activo":"Bloqueado"."</td>
+                         </tr>";
+                  $fila++;
+                }
+                $html.="</tbody>
+                </table>";
+
+        $mpdf->writeHTML($html);
+
+        $mpdf->Output("test.pdf",'I');
+
+    }
+
 
 
     /**

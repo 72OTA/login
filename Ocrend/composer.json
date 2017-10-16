@@ -7,6 +7,7 @@
         "phpmailer/phpmailer": "^5.2",
         "symfony/debug": "^3.3",
         "symfony/var-dumper": "^3.3",
-        "phpoffice/phpexcel": "^1.8"
+        "phpoffice/phpexcel": "^1.8",
+        "mpdf/mpdf": "^6.1"
     }
 }
