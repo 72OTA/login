@@ -10,9 +10,11 @@
 # Modulos Generales para funcionamiento del template
 * Menu dinamico por perfil de usuario
 * Modificación de clave usuario logueado
-* Visor de Perfil usuario logueado
+* Vista de Perfil usuario logueado
 * redirección pagina de inicio asignada a usuario
 * avatares de usuario logueado
+* Valida acceso a controlador administracion sólo para usuarios con rol admin
+* Validacion de acceso a controladores segun perfil asignado (limitando el ingreso por url)
 
 
 # Modulos administración de usuario y perfiles
