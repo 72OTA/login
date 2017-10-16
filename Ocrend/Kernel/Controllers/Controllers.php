@@ -204,6 +204,7 @@ abstract class Controllers {
      * @return void
      */
     private function knowVisitorPermissions() {
+      global $config;
       # Sólamente usuarios logeados
       if ($this->controllerConfig['users_logged'] && !$this->is_logged) {
         $this->functions->redir();
@@ -216,7 +217,7 @@ abstract class Controllers {
 
       if ($this->is_logged){
         if ($this->controllerConfig['only_admin'] && $this->user['rol'] != 1 ){
-          $this->functions->redir();
+          $this->functions->redir($config['site']['url'] . '&error=true');
         }
 
         if ($this->controllerConfig['access_menu']['access']){
@@ -229,7 +230,7 @@ abstract class Controllers {
             }
           }
           if ($flat == false){
-            $this->functions->redir();
+            $this->functions->redir($config['site']['url'] . '&error=true');
           }
         }
       }
