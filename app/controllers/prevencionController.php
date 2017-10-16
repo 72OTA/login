@@ -26,7 +26,8 @@ class prevencionController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
-            'users_logged' => true
+            'users_logged' => true,
+            'access_menu' => ['id_menu' => 5, 'access' => true]
         ));
 
         $op = '5';

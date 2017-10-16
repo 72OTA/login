@@ -26,7 +26,8 @@ class rrhhController extends Controllers implements IControllers {
 
     public function __construct(IRouter $router) {
         parent::__construct($router,array(
-            'users_logged' => true
+            'users_logged' => true,
+            'access_menu' => ['id_menu' => 2, 'access' => true]
         ));
         $op = '2';
 		    echo $this->template->render('rrhh/rrhh', array('menu_op' => $op ));
