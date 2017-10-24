@@ -105,10 +105,6 @@ function carga_modal_reset_pass(id_user){
   $('#modal_reset_pass_user').modal('show');
   document.getElementById('id_user').value=id_user
 }
-function update_estado_user(estado_actual,id_user){
-  $('#modal_reset_pass_user').modal('show');
-  document.getElementById('id_user').value=id_user
-}
 function actualiza_usuarios(){
   var formData = new FormData();
   formData.append('foto',document.getElementById('foto').files[0]);
@@ -119,6 +115,7 @@ function actualiza_usuarios(){
   formData.append('fono',document.getElementById('fono').value);
   formData.append('perfil',document.getElementById('perfil').value);
   formData.append('pagina_inicio',document.getElementById('pagina_inicio').value);
+  formData.append('rut_trabajador',document.getElementById('rut_trabajador').value);
   if (false == document.getElementById('rol').checked)
     formData.append('rol','0');
   else

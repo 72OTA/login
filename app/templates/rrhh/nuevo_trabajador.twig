@@ -1,0 +1,65 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+{% endblock %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            RRHH
+            <small>Agregar</small>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li><a href="rrhh/mantenedores_crud_masters">Mantenedores</a></li>
+        <li><a href="rrhh/listar_trabajadores">Listado de Trabajadores</a></li>
+        <li class="active">Nuevo Trabajador</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <form id="register_trabajador_form"  action="" method="POST">
+              <div class="box-body col-sm-4"></div>
+              <div class="box-body col-sm-4">  
+                <div class="form-group">
+                  <input class="form-control" name="rut" id="rut" type="text" placeholder="RUT xxxxxxxx s/digito (Requerido)" required/>
+                  <input class="form-control" name="nombres" id="nombres" type="text" placeholder="Nombre Completo (Requerido)" required/>
+                  <input class="form-control" name="fono" id="fono" type="text" placeholder="Fono" required/>
+                </div>
+                <div class="form-group">Fecha Nacimiento
+                  <input class="form-control" name="f_nacimiento" id="f_nacimiento" type="date" value='{{ "now"|date("Y-m-d") }}'/>
+                </div>
+                <div class="form-group">Cargo
+                  <select name='cargo' id='cargo' class='form-control'>
+                    <option selected='selected'>--</option>
+                    {% for p in cargos_db if false != cargos_db %}
+                      <option value='{{ p.id_cargo }}'>{{ p.descripcion }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">Area
+                  <select name='area' id='area' class='form-control'>
+                    <option selected='selected'>--</option>
+                    {% for p in areas_db if false != areas_db %}
+                      <option value='{{ p.id_area }}'>{{ p.descripcion }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group">
+                  <button type="button" id="register_personal" class="btn btn-default">Grabar</button>
+                  <button type="reset" id="limpiar" class="btn btn-default">Limpiar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/rrhh/rrhh.js"></script>
+{% endblock %}

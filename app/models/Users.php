@@ -286,6 +286,7 @@ class Users extends Models implements IModels {
             $email = $http->request->get('email');
             $fono = $http->request->get('fono');
             $cargo = $http->request->get('cargo');
+            $rut_trabajador=$http->request->get('rut_trabajador');
             $pass = $http->request->get('pass');
             $pass_repeat = $http->request->get('pass_repeat');
             $perfil = $http->request->get('perfil');
@@ -313,6 +314,7 @@ class Users extends Models implements IModels {
                 'name' => $name,
                 'email' => $email,
                 'fono' => $fono,
+                'rut_personal' => $rut_trabajador,
                 'cargo' => $cargo,
                 'perfil' => $perfil,
                 'pagina_inicio' => $pagina_inicio,
@@ -353,6 +355,8 @@ class Users extends Models implements IModels {
             $email = $http->request->get('email');
             $cargo = $http->request->get('cargo');
             $fono = $http->request->get('fono');
+            $rut_personal = $http->request->get('rut_personal');
+            $rut_trabajador = $http->request->get('rut_trabajador');
             $perfil = $http->request->get('perfil');
             $pagina_inicio = $http->request->get('pagina_inicio');
             $rol = $http->request->get('rol');
@@ -388,6 +392,7 @@ class Users extends Models implements IModels {
               'fono' => $fono,
               'cargo' => $cargo,
               'perfil' => $perfil,
+              'rut_personal' => $rut_trabajador,
               'pagina_inicio' => $pagina_inicio,
               'rol' => $rol
             ),"id_user='$id_user'",'LIMIT 1');
@@ -879,6 +884,27 @@ class Users extends Models implements IModels {
      */
     public function getUserById(int $id, string $select = '*') {
         return $this->db->select($select,'users',"id_user='$id'",'LIMIT 1');
+    }
+
+    /**
+     * Obtiene datos de un usuario según su id en la base de datos
+     *
+     * @param int $id: Id del usuario a obtener
+     * @param string $select : Por defecto es *, se usa para obtener sólo los parámetros necesarios
+     *
+     * @return array json con información del usuario
+     */
+    public function search_user() {
+      global $config, $http;
+
+      $id_user = $http->request->get('id_user');
+
+      $user =  $this->db->select('*','users',"id_user='$id_user'",'LIMIT 1');
+      if (false == $user){
+        return array('success' => 0, 'message' => 'Usuario no valido');
+      }else {
+        return array('success' => 1, 'message' => $user[0] );
+      }
     }
 
     /**

@@ -75,16 +75,27 @@
               </div>
             </div>
             <div class="box-body col-sm-4">
+              <div class="row">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">Foto</label>
+                  <div class="col-sm-5">
+                    <input type="file" name="foto" id="foto">
+                    <br/>
+                    {% if db_users.foto == 1 %}
+                      <img style="border:1px solid #eaeaea;border-radius:5px;" src="views/app/images/avatares/{{ db_users.name_foto }}" width="128">
+                    {% else %}
+                      <img style="border:1px solid #eaeaea;border-radius:5px;" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" width="128">
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label">Foto</label>
-                <div class="col-sm-5">
-                  <input type="file" name="foto" id="foto">
+                <div class="row">
                   <br/>
-                  {% if db_users.foto == 1 %}
-                    <img style="border:1px solid #eaeaea;border-radius:5px;" src="views/app/images/avatares/{{ db_users.name_foto }}" width="128">
-                  {% else %}
-                    <img style="border:1px solid #eaeaea;border-radius:5px;" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" width="128">
-                  {% endif %}
+                  <label class="col-sm-4  control-label">Rut Asocia Trabajador</label>
+                  <div class="col-sm-5">
+                    <input class="form-control" name="rut_trabajador"        id="rut_trabajador"        type="text"     placeholder="xxxxxxxx s/digito" value='{{ db_users.rut_personal }}'/>
+                  </div>
                 </div>
               </div>
             </div>

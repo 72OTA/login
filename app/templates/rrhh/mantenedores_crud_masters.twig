@@ -1,0 +1,78 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+    <section class="content-header">
+        <h1>
+            RRHH
+            <small>Mantenedor de Maestros</small>
+        </h1>
+        <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">Mantenedores</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      <br/>
+      <div class="row">
+        <div class="col-lg-3">
+          <form>
+            <fieldset>
+            <legend>Trabajadores</legend>
+              <div style="background-color:#00c0ef;color:#fff" class="small-box">
+                <div class="inner">
+                  <h3>Listar</h3>
+                  <p>Todos</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-user-plus"></i>
+                </div>
+                  <a href="rrhh/listar_trabajadores" class="small-box-footer" title="Ver Trabajadores" data-toggle="tooltip"><i class="fa fa-eye"></i></a>
+              </div>
+              <div style="background-color:#00c0ef;color:#fff" class="small-box">
+                <div class="inner">
+                  <h3>Agregar</h3>
+                  <p>Nuevo</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-user-plus"></i>
+                </div>
+                  <a href="rrhh/nuevo_trabajador" class="small-box-footer" title="Agregar Nuevo" data-toggle="tooltip"><i class="fa fa-plus"></i></a>
+              </div>
+            </fieldset>
+          </form>
+        </div><!-- ./col -->
+
+        <div class="col-lg-3">
+          <form>
+            <fieldset>
+            <legend>Cargos</legend>
+              <div style="background-color:#aaaaff;color:#fff" class="small-box">
+                <div class="inner">
+                  <h3>Listar</h3>
+                  <p>Todos</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-user-plus"></i>
+                </div>
+                  <a href="rrhh/listar_trabajadores" class="small-box-footer" title="Ver Cargos" data-toggle="tooltip"><i class="fa fa-eye"></i></a>
+              </div>
+              <div style="background-color:#aaaaff;color:#fff" class="small-box">
+                <div class="inner">
+                  <h3>Agregar</h3>
+                  <p>Nuevo</p>
+                </div>
+                <div class="icon">
+                  <i class="fa fa-user-plus"></i>
+                </div>
+                  <a href="rrhh/nuevo_trabajador" class="small-box-footer" title="Agregar Nuevo" data-toggle="tooltip"><i class="fa fa-plus"></i></a>
+              </div>
+            </fieldset>
+          </form>
+        </div><!-- ./col -->
+      </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}

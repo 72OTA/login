@@ -1,0 +1,93 @@
+{% extends 'portal/portal' %}
+{% block appStylos %}
+  <link rel="stylesheet" href="views/app/template/datatables/dataTables.bootstrap.css">
+{% endblock %}
+{% block appBody %}
+  <section class="content-header">
+      <h4>
+        <i class="fa fa-user"></i> GESTION DE HORAS EXTRA
+        <a class="btn btn-primary btn-social pull-right" href="rrhh/pedir_hora_extra" title="solicitar" data-toggle="tooltip">
+          <i class="fa fa-plus"></i> SOLICITAR
+        </a>
+      </h4>
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box box-primary">
+          <div class="box-body">
+          <table id="dataTables1" class="table table-bordered">
+            <thead>
+              <tr>
+                <th>rut</th>
+                <th>Solicitante</th>
+                <th>Fecha</th>
+                <th>Hora desde</th>
+                <th>Hora hasta</th>
+                <th>Motivo</th>
+                <th>Estatus</th>
+                <th>OPCIONES</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% set No = 1 %}
+              {% for d in horas_extras if false != horas_extras %}
+              {% if  owner_user['rut_personal']  ==  d.rut or owner_user['rol'] == 1 %}
+                <tr>
+                  <td>{{ d.rut }}</td>
+                  <td>{{ d.solicitante }}</td>
+                  <td>{{ d.fecha }}</td>
+                  <td>{{ d.fechad|raw|title }}</td>
+                  <td>{{ d.fechah }}</td>
+                  <td>{{ d.motivo }}</td>
+                  <td>{{ d.estatus }}</td>
+                  <td class='center' width='150'>
+                    {% if d.estatus == "Pendiente" %}
+                        <button type="button" id="btn_revisar" title='Revisar' class="btn btn-success btn-sm" data-toggle="modal" onclick="modal_responder_solicitud('{{ d.id }}')"><i class='glyphicon glyphicon-eye-open'></i></button>
+                        </a>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endif %}
+                {% set No =  No + 1 %}
+              {% endfor %}
+              </tr>
+            </tbody>
+
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% include 'rrhh/horasextra/mostrar_hora_extra' %}
+{% endblock %}
+{% block appScript %}
+    <!-- DATA TABES SCRIPT -->
+    <script src="views/app/template/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="views/app/template/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+
+    <script src="views/app/js/horasextra/horasextra.js"></script>
+
+    <script>
+     $("#dataTables1").dataTable({
+                "language": {
+                    "search": "Buscar:",
+                    "zeroRecords": "No hay datos para mostrar",
+                    "info":"Mostrando _END_ Registros, de un total de _TOTAL_ ",
+                    "loadingRecords": "Cargando...",
+                    "processing":"Procesando...",
+                    "infoEmpty":"No hay entradas para mostrar",
+                    "lengthMenu": "Mostrar _MENU_ Filas",
+                    "paginate":{
+                      "first":"Primera",
+                      "last":"Ultima",
+                      "next":"Siguiente",
+                      "previous":"Anterior",
+                    }
+                              },
+                "autoWidth": true
+            });
+    </script>
+
+{% endblock %}

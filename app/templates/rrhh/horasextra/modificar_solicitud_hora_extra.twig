@@ -1,0 +1,78 @@
+{% extends 'portal/portal' %}
+{% block appBody %}
+<section class="content-header">
+    <h4>
+      <i class="fa fa-user"></i> MODIFICAR SOLICITUD DE HORAS EXTRA
+    </h4>
+    <ol class="breadcrumb">
+      <li><a href="portal"><i class="fa fa-home"></i> Home </a></li>
+      <li><a href="rrhh/horasextra"> Horas Extra </a></li>
+      <li class="active"> Modificar la solicitud </li>
+    </ol>
+</section>
+    <section class="content-header">
+      <div class="tab-pane active" id="tab_1-1">
+          <b>Modificar la peticion</b>
+          <div id="bloque_registro"></div>
+          <div class="box box-info">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-2"></div>
+                      <div class="col-md-8" id="main">
+                        <br>
+                          <form name="form_modificar" id="form_modificar" action="" method="POST">
+                                  <input type="hidden" class="form-control" name="rut" id="rut" value="{{ modifica_hx.rut }}">
+                                    <div class="form-group">
+                                      <label>RUT:</label>
+                                  <input type="text" class="form-control" disabled value="{{ modifica_hx.rut }}">
+                                </div>
+                                  <div class="form-group">
+                                      <label for="tiempo">Fecha:</label>
+                                      <input type="date" class="form-control" name="fecha" id="fecha" value="{{  modifica_hx.fecha  }}" required>
+                                  </div>
+                              <div class="form-group">
+                                  <label for="dcorta">Desde:</label>
+                                  <input type="time" class="form-control" name="fechad" id="fechad" value="{{ modifica_hx.fechad|raw|title }}" required>
+                              </div>
+                              <div class="form-group">
+                                  <label for="dcorta">Hasta:</label>
+                                  <input type="time" class="form-control" name="fechah" id="fechah" value="{{ modifica_hx.fechah }}" required>
+                              </div>
+                              <div class="form-group">
+                                  <input type="hidden" class="form-control" name="solicitante" value="{{ modifica_hx.solicitante }}" id="solicitante" required>
+                                  <label>Solicitante:</label>
+                                  <input type="text" class="form-control" value="{{ modifica_hx.solicitante }}" disabled>
+                                </div>
+                              <div class="form-group">
+                                  <label for="motivo">Motivo:</label>
+                                  <input type="text" class="form-control" name="motivo" id="motivo"  value="{{ modifica_hx.motivo }}" >
+                                  <input type="hidden" class="form-control" name="id" id="id"  value="{{ modifica_hx.id }}" >
+                              </div>
+                              <center>
+                                  <button class="btn btn-success" type="button" id="btn_modificar"><span>Modificar</span></button>
+
+                              </center>
+                          </form>
+                          <div id="resultado"></div>
+                      </div>
+                  </div>
+              </div>
+
+              <br>
+              <br>
+              <hr>
+          </div>
+
+          <div id="bloque_registro"></div>
+      </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+{% block appScript %}
+    <script src="views/app/js/horasextra/horasextra.js"></script>
+{% endblock %}
